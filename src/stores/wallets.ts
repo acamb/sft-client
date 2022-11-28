@@ -35,9 +35,7 @@ export const useWalletsStore = defineStore('wallets',{
             }
         },
         async save(wallet: WalletDto){
-            await axios.post("api/wallet/",{
-
-            });
+            await axios.post("api/wallet/",wallet);
             await this.loadUserWallet(true);
         },
         async delete(wallet: WalletDto){

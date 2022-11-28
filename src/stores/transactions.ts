@@ -30,24 +30,32 @@ export const useTransactionsStore = defineStore('transactions',{
     getters: {
         transactions(state: TransactionsState){
             return (wallet: WalletDto) : TransactionDto[] => {
-                return (state.transactionsMap.get(wallet) ? state.transactionsMap.get(wallet) : [])!;
+                return (state.transactionsMap.get(wallet) ?? [])!;
             }
         }
     },
     actions: {
         async loadTransactions(wallet: WalletDto,force: boolean,search?: Search){
-            if(force || search || this.transactions == null || this.transactions.length == 0){
+            if(force || search || this.transactions(wallet).length == 0){
                 //TODO search filters
-                let response = await axios.get(`api/transaction/${wallet.id}`);
+                let response = await axios.get<Array<TransactionDto>>(`api/transaction/${wallet.id}`);
                 this.transactionsMap.set(wallet,response?.data ?? []);
                 this.search = search ?? this.search;
             }
         },
         async save(wallet: WalletDto,transaction: TransactionDto){
-            await axios.post(`api/transaction/`,{
-                walletDto: wallet,
-                transactionDto: transaction
-            });
+            if(transaction.id){
+                await axios.put(`api/transaction/`,{
+                    walletDto: wallet,
+                    transactionDto: transaction
+                });
+            }
+            else{
+                await axios.post(`api/transaction/`,{
+                    walletDto: wallet,
+                    transactionDto: transaction
+                });
+            }
             await this.loadTransactions(wallet,true,undefined);
         },
         async delete(wallet: WalletDto,transaction: TransactionDto){

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import CategoryDto from './../models/CategoryDto';
+import axios from '../axios';
 
 export type CategoryState = {
     categories: CategoryDto[]
@@ -11,20 +12,21 @@ export const useCategoryStore = defineStore('categories',{
     }) as CategoryState,
     actions: {
         async loadCategories(force: boolean){
-            //TODO
-            console.log('loading categories');
-            return new Promise( resolve => setTimeout(resolve, 1000) )
+            let response = await axios.get<Array<CategoryDto>>("/api/categories");
+            this.categories = response.data ?? [];
         },
         async save(category: CategoryDto){
             if(category.id){
-                //TODO
+                await axios.put("/api/categories",category);
             }
             else{
-                //TODO
+                await axios.post("/api/categories",category);
             }
+            await this.loadCategories(true);
         },
         async delete(category: CategoryDto){
-            //TODO
+            await axios.delete(`/api/categories/${category.id}`);
+            await this.loadCategories(true);
         }
     }
 })

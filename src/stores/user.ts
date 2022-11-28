@@ -5,6 +5,11 @@ export type UserState = {
     user: UserDto;
 }
 
+interface LoginResponse {
+    user: UserDto,
+    token: string
+}
+
 export const useUserStore = defineStore('user',{
     state: () => ({
         user: sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')!) : <unknown>undefined
@@ -20,7 +25,7 @@ export const useUserStore = defineStore('user',{
     actions: {
         async login(username: String,password: String): Promise<boolean>{
             try{
-                let response = await axios.post("api/login",{username,password})
+                let response = await axios.post<LoginResponse>("api/login",{username,password})
                 this.user = response.data.user;
                 sessionStorage.setItem('authenticated','true');
                 sessionStorage.setItem('user',JSON.stringify(this.user));

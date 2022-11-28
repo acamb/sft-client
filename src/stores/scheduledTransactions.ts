@@ -2,6 +2,7 @@ import CategoryDto from '../models/CategoryDto';
 import { defineStore } from 'pinia';
 import ScheduledTransactionDto from "../models/ScheduledTransactionDto"
 import WalletDto from "../models/WalletDto"
+import axios from "../axios"
 
 export type TransactionsState = {
     transactionsMap: Map<WalletDto,ScheduledTransactionDto[]>
@@ -21,7 +22,7 @@ export const useTransactionsStore = defineStore('transactions',{
     getters: {
         transactions(state: TransactionsState){
             return (wallet: WalletDto) : ScheduledTransactionDto[] => {
-                return (state.transactionsMap.get(wallet) ? state.transactionsMap.get(wallet) : [])!;
+                return (state.transactionsMap.get(wallet) ?? [])!;
             }
         },
         search(state){
@@ -42,13 +43,35 @@ export const useTransactionsStore = defineStore('transactions',{
     },
     actions: {
         async loadScheduledTransactions(wallet: WalletDto,force: boolean){
-            //TODO
+            if(force ||  this.transactions(wallet).length == 0){
+                //TODO search filters
+                let response = await axios.get<Array<ScheduledTransactionDto>>(`/api/scheduled/${wallet.id}`);
+                this.transactionsMap.set(wallet,response?.data ?? []);
+            }
         },
         async save(wallet: WalletDto,scheduled: ScheduledTransactionDto){
-            //TODO
+            if(scheduled.id){
+                await axios.put("/api/scheduled/",{
+                    wallet,
+                    scheduledTransaction: scheduled
+                });
+            }
+            else{
+                await axios.post("/api/scheduled/",{
+                    wallet,
+                    scheduledTransaction: scheduled
+                });
+            }
+            await this.loadScheduledTransactions(wallet,true);
         },
         async delete(wallet: WalletDto,scheduled: ScheduledTransactionDto){
-            //TODO
+            await axios.delete("/api/scheduled/",{
+                data:{
+                    wallet,
+                    scheduledTransaction: scheduled
+                }
+            });
+            await this.loadScheduledTransactions(wallet,true);
         }
     }
 });
