@@ -6,6 +6,7 @@ import Categories from './components/Categories.vue'
 import AddTransaction from './components/AddTransaction.vue'
 import LoginPage from './components/LoginPage.vue'
 import Wallet from './components/Wallet.vue'
+import GenericError from './components/GenericError.vue'
 import { useWalletsStore } from './stores/wallets'
 
 async function loadInitialData(){
@@ -20,5 +21,6 @@ export const routes = [
     { path: '/categories', component: Categories },
     { path: '/addTransaction', component: AddTransaction },
     { path: '/wallet/:id', component: Wallet,props: true},
-    { path: '/login', component: LoginPage, name: 'Login' }
+    { path: '/login', component: LoginPage, name: 'Login' },
+    { path: '/error', component: GenericError, name: 'error' }
   ];

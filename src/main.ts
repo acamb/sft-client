@@ -21,5 +21,8 @@ const i18n = createI18n({
 }
 );
 app.use(i18n);
+app.config.errorHandler = (err) => {
+    router.push('/error');
+  };
 
 app.mount('#app')

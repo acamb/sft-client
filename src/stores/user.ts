@@ -7,7 +7,7 @@ export type UserState = {
 
 export const useUserStore = defineStore('user',{
     state: () => ({
-        user: JSON.parse(sessionStorage.getItem('user')) ? JSON.parse(sessionStorage.getItem('user')) : <unknown>undefined
+        user: sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')!) : <unknown>undefined
     } as UserState),
     getters: {
         currentUser(): UserDto | undefined {
@@ -24,6 +24,7 @@ export const useUserStore = defineStore('user',{
                 this.user = response.data.user;
                 sessionStorage.setItem('authenticated','true');
                 sessionStorage.setItem('user',JSON.stringify(this.user));
+                sessionStorage.setItem('token',response.data.token);
                 return true;
             }
             catch(err){

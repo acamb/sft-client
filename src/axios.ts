@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useRouter } from 'vue-router';
+import router from "./router"
 const baseURL = '/';
 
 const instance = axios.create(
@@ -28,10 +28,11 @@ instance.interceptors.response.use(
   },
   (err) => {
     if (err.response?.status === 401 && err.config?.url !== 'api/login'){
-        const router = useRouter();
+        sessionStorage.clear();
         router.push("/login");
     }
     else {
+      router.push('/error');
       return Promise.reject(err);
     }
   }

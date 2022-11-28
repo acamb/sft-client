@@ -2,9 +2,11 @@ import CategoryDto from './../models/TransactionDto.d';
 import { defineStore } from 'pinia';
 import TransactionDto from "../models/TransactionDto"
 import WalletDto from "../models/WalletDto"
+import axios from "../axios"
 
 export type TransactionsState = {
-    transactionsMap: Map<WalletDto,TransactionDto[]>
+    transactionsMap: Map<WalletDto,TransactionDto[]>,
+    search: Search
 
 }
 
@@ -22,7 +24,8 @@ export type Search = {
 
 export const useTransactionsStore = defineStore('transactions',{
     state: () => ({
-        transactionsMap: new Map()
+        transactionsMap: new Map(),
+        search: {}
     }) as TransactionsState,
     getters: {
         transactions(state: TransactionsState){
@@ -32,15 +35,24 @@ export const useTransactionsStore = defineStore('transactions',{
         }
     },
     actions: {
-        async loadTransactions(wallet: WalletDto,force: boolean,search: Search){
-            //TODO
-            
+        async loadTransactions(wallet: WalletDto,force: boolean,search?: Search){
+            if(force || search || this.transactions == null || this.transactions.length == 0){
+                //TODO search filters
+                let response = await axios.get(`api/transaction/${wallet.id}`);
+                this.transactionsMap.set(wallet,response?.data ?? []);
+                this.search = search ?? this.search;
+            }
         },
         async save(wallet: WalletDto,transaction: TransactionDto){
-
+            await axios.post(`api/transaction/`,{
+                walletDto: wallet,
+                transactionDto: transaction
+            });
+            await this.loadTransactions(wallet,true,undefined);
         },
         async delete(wallet: WalletDto,transaction: TransactionDto){
-            
+            await axios.delete(`api/transaction/${transaction.id}`);
+            await this.loadTransactions(wallet,true,undefined);
         }
     }
 });
