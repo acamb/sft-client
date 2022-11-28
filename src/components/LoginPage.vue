@@ -11,10 +11,10 @@ const loginError = ref('');
 async function login(){
     let result = await userStore.login(username.value,password.value);
     if(result){
-        router.push('/');
+        router.push('/'); 
     }
     else{
-        loginError.value = 'Username or password invalid';
+        loginError.value = 'Username or password invalid'; //TODO internationalization
     }
 }
 </script>
@@ -23,14 +23,14 @@ async function login(){
         <div v-if="loginError" class="alert alert-danger">
             {{loginError}}
         </div>
-        <form @submit.preventDefault="login">
+        <form @submit.prevent="login">
             <div class="mb-3">
-                <label for="username" class="form-label">{{ $t('username') }}</label><input class="form-control" id="username" :text="username" required/>
+                <label for="username" class="form-label">{{ $t('username') }}</label><input class="form-control" id="username" v-model="username" required/>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">{{ $t('password') }}</label><input class="form-control" id="password" :text="password" required/>
+                <label for="password" class="form-label">{{ $t('password') }}</label><input class="form-control" id="password" v-model="password" required/>
             </div>
-            <button type="submit" class="btn btn-outline-success">{{ $t('login') }}</button>
+            <button type="submit" class="btn btn-outline-success">{{ $t('login') }}</button> 
         </form>
     </div>
 </template>
