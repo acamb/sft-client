@@ -14,11 +14,11 @@ const userStore = useUserStore();
         <button class="btn btn-outline-primary home-button d-flex justify-content-between" @click="navigate">{{ $t("mywallets") }}&nbsp;<i class="bi bi-wallet2"></i></button>
     </router-link>
     <router-link
-      to="/addTransaction"
+      to="/addWallet"
       custom
       v-slot="{ navigate }"
     >
-        <button class="btn btn-outline-primary home-button d-flex justify-content-between" @click="navigate">{{ $t("addTransaction") }}&nbsp;<i class="bi bi-database-add align-right"></i></button>
+        <button class="btn btn-outline-primary home-button d-flex justify-content-between" @click="navigate">{{ $t("addWallet") }}&nbsp;<i class="bi bi-wallet2"></i></button>
     </router-link>
     <router-link
       to="/categories"
