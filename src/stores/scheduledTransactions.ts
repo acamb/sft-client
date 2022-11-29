@@ -15,7 +15,7 @@ export type Search = {
     id?: number
 }
 
-export const useTransactionsStore = defineStore('transactions',{
+export const useScheduledTransactionsStore = defineStore('transactions',{
     state: () => ({
         transactionsMap: new Map()
     }) as TransactionsState,

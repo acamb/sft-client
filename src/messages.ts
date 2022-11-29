@@ -5,6 +5,15 @@ export const messages = {
         manageCategories: 'Manage categories',
         login: 'Login',
         username: 'Username',
-        password: 'Password'
+        password: 'Password',
+        name: 'Name',
+        description: 'Description',
+        save: 'Save',
+        date: 'Date',
+        amount: 'Amount',
+        previousAmount: 'Previous amount',
+        category: 'Category',
+        note: 'Note',
+        back: 'Back'
     }
 }

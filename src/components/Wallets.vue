@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useWalletsStore } from '../stores/wallets';
+import BackButton from './BackButton.vue';
 
 const walletStore = useWalletsStore();
 </script>
@@ -32,4 +33,5 @@ const walletStore = useWalletsStore();
             </router-link>
         </div>
     </div>
+    <BackButton/>
 </template>

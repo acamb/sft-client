@@ -10,6 +10,11 @@ export const useCategoryStore = defineStore('categories',{
     state: () => ({
         categories: <unknown> undefined
     }) as CategoryState,
+    getters: {
+        category(state){
+            return (id:number): CategoryDto | undefined => this.categories.find(c => c.id === id);
+        }
+    },
     actions: {
         async loadCategories(force: boolean){
             let response = await axios.get<Array<CategoryDto>>("/api/categories");

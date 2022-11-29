@@ -32,6 +32,11 @@ export const useTransactionsStore = defineStore('transactions',{
             return (wallet: WalletDto) : TransactionDto[] => {
                 return (state.transactionsMap.get(wallet) ?? [])!;
             }
+        },
+        transaction(state: TransactionsState){
+            return (id: number,wallet: WalletDto) : TransactionDto | undefined => {
+                return state.transactionsMap.get(wallet)?.find(t => t.id === id);
+            }
         }
     },
     actions: {
