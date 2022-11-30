@@ -8,12 +8,11 @@ import BackButton from './BackButton.vue';
 
 const route = useRoute();
 const walletStore = useWalletsStore();
-const props = defineProps({
-    walletId: number
-});
-const wallet = ref(walletStore.wallet(props.walletId) ?? <WalletDto>{});
+
+const wallet = ref(walletStore.wallet(Number.parseInt(<string>route.params.id)) ?? <WalletDto>{});
 function submit(){
-    walletStore.save(wallet.value);
+    console.log(`name: ${wallet.value.name}`)
+    walletStore.save({...wallet.value});
     router.push("/wallets");
 }
 </script>
@@ -21,11 +20,15 @@ function submit(){
 <form @submit.prevent="submit">
     <div class="mb-3">
         <label class="form-label" label-for="name">{{$t('name')}}</label>
-        <input class="form-input" id="name" required v-model="wallet.name"/>
+        <input class="form-control" id="name" required v-model="wallet.name"/>
     </div>
     <div class="mb-3">
         <label class="form-label" label-for="description">{{$t('description')}}</label>
-        <input class="form-input" id="description" v-model="wallet.description"/>
+        <input class="form-control" id="description" v-model="wallet.description"/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" label-for="balance">{{$t('balance')}}</label>
+        <input type="number" class="form-control" id="balance" v-model="wallet.balance" required/>
     </div>
     <button class="btn btn-outline-success">{{$t('save')}}</button>
     <BackButton/>

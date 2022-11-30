@@ -4,7 +4,6 @@ import { useUserStore } from '../stores/user';
 const userStore = useUserStore();
 </script>
 <template>
-    {{ userStore.currentUser }}
     <div class="button-container">
         <router-link
       to="/wallets"

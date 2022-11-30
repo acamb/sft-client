@@ -19,7 +19,7 @@ export const useWalletsStore = defineStore('wallets',{
             return state.userWallets?.map(uw => uw.walletDto);
         },
         wallet(state) {
-            return (id: number)=> state.userWallets?.map(uw => uw.walletDto)?.filter(w => w!.id === id)! as WalletDto;
+            return (id: number | undefined)=> state.userWallets?.map(uw => uw.walletDto)?.filter(w => w!.id === id)[0] as WalletDto;
         }
     },
     actions: {

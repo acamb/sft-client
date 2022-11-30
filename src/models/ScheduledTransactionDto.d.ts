@@ -18,4 +18,8 @@ export default interface ScheduledTransactionDto{
   dayOfWeek?: number
 
   categoryDto?: CategoryDto
+
+  nextFire?: Date
+
+  name?: string
 }

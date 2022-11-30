@@ -23,11 +23,12 @@ export const routes = [
     { path: '/wallets', component: Wallets },
     { path: '/categories', component: Categories },
     { path: '/addCategory', component: AddCategory },
-    { path: '/editCategory', component: AddCategory,props:true },
-    { path: '/addTransaction', component: AddTransaction,props: true },
+    { path: '/editCategory/:id', component: AddCategory },
+    { path: '/addTransaction/:walletId', component: AddTransaction, name: 'addTransaction' },
+    { path: '/editTransaction/:walletId/:transactionId', component: AddTransaction, name: 'editTransaction' },
     { path: '/addWallet', component: AddWallet },
-    { path: '/editWallet', component: AddWallet, props: true },
-    { path: '/wallet/:id', component: Wallet,props: true},
+    { path: '/editWallet/:id', component: AddWallet },
+    { path: '/wallet/:id', component: Wallet, name: 'wallet'},
     { path: '/login', component: LoginPage, name: 'Login' },
     { path: '/error', component: GenericError, name: 'error' }
   ];

@@ -3,35 +3,46 @@ import { useWalletsStore } from '../stores/wallets';
 import BackButton from './BackButton.vue';
 
 const walletStore = useWalletsStore();
+walletStore.loadUserWallet(false);
 </script>
 <template>
     <div class="card" v-for="wallet in walletStore.wallets">
         <div class="card-header">
-            {{ wallet!.description }}
+            {{ wallet!.name }}
         </div>
-        <div class="card-body">
-            Balance: {{ wallet!.balance }}
-            <router-link
-                :to="{
-                    path: '/wallet/',
-                    params: {id: wallet!.id}
-                }"
-                custom
-                v-slot="{ navigate }"
-                >
-                <button class="btn btn-outline-success" @click="navigate">Details</button>
-            </router-link>
-            <router-link
-                :to="{
-                    path: '/addTransaction/',
-                    params: {id: wallet!.id}
-                }"
-                custom
-                v-slot="{ navigate }"
-                >
-                <button class="btn btn-outline-success">Add transaction</button>
-            </router-link>
+        <div class="card-body wallet-body">
+            <div>Balance: {{ wallet!.balance }}</div>
+            <div>Description: {{wallet!.description}}</div>
+            <div class="d-flex justify-content-between">
+                <router-link
+                    :to="{
+                        name: 'wallet',
+                        params: {id: wallet!.id}
+                    }"
+                    custom
+                    v-slot="{ navigate }"
+                    >
+                    <button class="btn btn-outline-success" @click="navigate">Details</button>
+                </router-link>
+                <router-link
+                    :to="{
+                        name: 'addTransaction',
+                        params: {walletId: wallet!.id}
+                    }"
+                    custom
+                    v-slot="{ navigate }"
+                    >
+                    <button class="btn btn-outline-success" @click="navigate">Add transaction</button>
+                </router-link>
+            </div>
         </div>
     </div>
     <BackButton/>
 </template>
+<style>
+.wallet-body{
+    display:flex;
+    flex-direction: column;
+}
+
+</style>

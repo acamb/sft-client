@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import router from '../router';
-
+const props = defineProps({
+    back: String
+})
 function back(){
-    router.go(-1)
+    if(props.back){
+        router.push(props.back);
+    }
+    else{
+        router.go(-1)
+    }
 }
 
 </script>

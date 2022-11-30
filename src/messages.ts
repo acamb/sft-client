@@ -2,6 +2,7 @@ export const messages = {
     en:{
         mywallets: "My Wallets",
         addTransaction: "Add transaction",
+        addCategory: 'Add category',
         manageCategories: 'Manage categories',
         login: 'Login',
         username: 'Username',
@@ -14,6 +15,7 @@ export const messages = {
         previousAmount: 'Previous amount',
         category: 'Category',
         note: 'Note',
-        back: 'Back'
+        back: 'Back',
+        addWallet: 'Add Wallet'
     }
 }

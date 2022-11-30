@@ -9,10 +9,9 @@ import router from '../router'
 import BackButton from './BackButton.vue';
 
 const route = useRoute();
-const props = defineProps({
-    walletId: number,
-    transactionId: number
-});
+
+const walletId = Number.parseInt(<string>route.params.walletId);
+const transactionId = Number.parseInt(<string>route.params.transactionId);
 const walletStore = useWalletsStore();
 const transactionStore = useTransactionsStore();
 const wallet = walletStore.wallet(walletId);
@@ -23,28 +22,31 @@ function save(){
     transactionStore.save(wallet,transaction.value);
     router.push("/wallets");
 }
+function canEdit(){
+    return transaction.value.id != undefined
+}
 </script>
 <template>
 <form @submit.prevent="save">
     <div class="mb-3">
         <label class="form-label" label-for="date">{{$t('date')}}</label>
-        <input class="form-input" id="date" required v-model="transaction.date" disabled/>
+        <input class="form-control" type="date" id="date" required v-model="transaction.date" :disabled="!canEdit"/>
     </div>
     <div class="mb-3">
         <label class="form-label" label-for="amount">{{$t('amount')}}</label>
-        <input class="form-input" id="amount" v-model="transaction.amount" disabled/>
+        <input class="form-control" id="amount" v-model="transaction.amount"  :disabled="!canEdit"/>
     </div>
-    <div class="mb-3">
+    <div class="mb-3" :hidden="canEdit">
         <label class="form-label" label-for="previousAmount">{{$t('previousAmount')}}</label>
-        <input class="form-input" id="previousAmount" v-model="transaction.previousAmount" disabled/>
+        <input class="form-control" id="previousAmount" v-model="transaction.previousAmount"  />
     </div>
     <div class="mb-3">
         <label class="form-label" label-for="category">{{$t('category')}}</label>
-        <v-select :options="categoryStore.categories" v-model="transaction.categoryDto"/>
+        <v-select class="form-control" :options="categoryStore.categories" v-model="transaction.categoryDto" label='name'/>
     </div>
     <div class="mb-3">
         <label class="form-label" label-for="note">{{$t('note')}}</label>
-        <input class="form-input" id="note" required v-model="transaction.note"/>
+        <input class="form-control" id="note" required v-model="transaction.note"/>
     </div>
     <button class="btn btn-outline-success">{{$t('save')}}</button>
     <BackButton/>
