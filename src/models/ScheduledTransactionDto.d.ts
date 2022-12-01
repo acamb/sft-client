@@ -9,6 +9,8 @@ export default interface ScheduledTransactionDto{
 
   recurrent?: boolean
 
+  recurrentFrequency: number
+
   type?: RecurrentType
 
   endDate?: any

@@ -1,3 +1,4 @@
+import { useScheduledTransactionsStore } from './stores/scheduledTransactions';
 import { vue } from '@vitejs/plugin-vue';
 import { useCategoryStore } from './stores/category';
 
@@ -11,7 +12,7 @@ import GenericError from './components/GenericError.vue'
 import { useWalletsStore } from './stores/wallets'
 import AddWallet from './components/AddWallet.vue'
 import AddCategory from './components/AddCategory.vue'
-
+import AddScheduledTransaction from './components/AddScheduledTransaction.vue'
 async function loadInitialData(){
   const walletStore = useWalletsStore();
   const categoryStore = useCategoryStore();
@@ -26,6 +27,8 @@ export const routes = [
     { path: '/editCategory/:id', component: AddCategory },
     { path: '/addTransaction/:walletId', component: AddTransaction, name: 'addTransaction' },
     { path: '/editTransaction/:walletId/:transactionId', component: AddTransaction, name: 'editTransaction' },
+    { path: '/addScheduledTransaction/:walletId', component: AddScheduledTransaction, name: 'addScheduledTransaction' },
+    { path: '/editScheduledTransaction/:walletId/:transactionId', component: AddScheduledTransaction, name: 'editScheduledTransaction' },
     { path: '/addWallet', component: AddWallet },
     { path: '/editWallet/:id', component: AddWallet },
     { path: '/wallet/:id', component: Wallet, name: 'wallet'},

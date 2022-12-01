@@ -23,6 +23,7 @@ const i18n = createI18n({
 );
 app.use(i18n);
 app.config.errorHandler = (err) => {
+  console.log(err);
     router.push('/error');
   };
 

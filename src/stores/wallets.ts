@@ -19,7 +19,7 @@ export const useWalletsStore = defineStore('wallets',{
             return state.userWallets?.map(uw => uw.walletDto);
         },
         wallet(state) {
-            return (id: number | undefined)=> state.userWallets?.map(uw => uw.walletDto)?.filter(w => w!.id === id)[0] as WalletDto;
+            return (id: number | undefined)=> state.userWallets?.map(uw => uw.walletDto)?.find(w => w!.id === id) as WalletDto;
         }
     },
     actions: {
@@ -33,6 +33,11 @@ export const useWalletsStore = defineStore('wallets',{
                     throw err;//TODO
                 }
             }
+        },
+        async refreshWallet(wallet: WalletDto){
+            let response = await axios.get<UserWalletDto>(`api/wallet/${wallet.id}`)
+            let idx = this.userWallets.findIndex( uw => uw.walletDto.id === wallet.id);
+            this.userWallets[idx] = response.data;
         },
         async save(wallet: WalletDto){
             await axios.post("api/wallet/",wallet);

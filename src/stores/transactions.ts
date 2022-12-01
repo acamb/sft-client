@@ -1,3 +1,4 @@
+import { useWalletsStore, useWalsStore } from './wallets';
 import CategoryDto from './../models/TransactionDto.d';
 import { defineStore } from 'pinia';
 import TransactionDto from "../models/TransactionDto"
@@ -50,21 +51,27 @@ export const useTransactionsStore = defineStore('transactions',{
         },
         async save(wallet: WalletDto,transaction: TransactionDto){
             if(transaction.id){
+                
                 await axios.put(`api/transaction/`,{
                     walletDto: wallet,
                     transactionDto: transaction
                 });
+                
             }
             else{
                 await axios.post(`api/transaction/`,{
                     walletDto: wallet,
                     transactionDto: transaction
                 });
+                const walletsStore = useWalletsStore();
+                await walletsStore.refreshWallet(wallet);
             }
             await this.loadTransactions(wallet,true,undefined);
         },
         async delete(wallet: WalletDto,transaction: TransactionDto){
-            await axios.delete(`api/transaction/${transaction.id}`);
+            const walletsStore = useWalletsStore();
+            await axios.delete(`api/transaction/`,{data:{walletDto:wallet,transactionDto:transaction}});
+            await walletsStore.refreshWallet(wallet);
             await this.loadTransactions(wallet,true,undefined);
         }
     }

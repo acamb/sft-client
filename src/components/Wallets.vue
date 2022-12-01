@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { useWalletsStore } from '../stores/wallets';
 import BackButton from './BackButton.vue';
+import {ref} from 'vue';
+import { storeToRefs } from 'pinia';
 
 const walletStore = useWalletsStore();
 walletStore.loadUserWallet(false);
+const {wallets} = storeToRefs(walletStore)
 </script>
 <template>
-    <div class="card" v-for="wallet in walletStore.wallets">
+    <div class="card" v-for="wallet in wallets">
         <div class="card-header">
             {{ wallet!.name }}
         </div>

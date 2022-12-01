@@ -15,7 +15,7 @@ export type Search = {
     id?: number
 }
 
-export const useScheduledTransactionsStore = defineStore('transactions',{
+export const useScheduledTransactionsStore = defineStore('scheduledTransactions',{
     state: () => ({
         transactionsMap: new Map()
     }) as TransactionsState,
@@ -23,6 +23,11 @@ export const useScheduledTransactionsStore = defineStore('transactions',{
         transactions(state: TransactionsState){
             return (wallet: WalletDto) : ScheduledTransactionDto[] => {
                 return (state.transactionsMap.get(wallet) ?? [])!;
+            }
+        },
+        transaction(state: TransactionsState){
+            return (transactionId: number,wallet: WalletDto) : ScheduledTransactionDto | undefined => {
+                return state.transactionsMap.get(wallet)?.find(t => t.id === transactionId);
             }
         },
         search(state){

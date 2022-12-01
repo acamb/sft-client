@@ -34,7 +34,7 @@ function editCategory(category: CategoryDto | undefined){
             </div>
         </div>
         <div class="row">
-            <BackButton class="w-auto"/>
+            <BackButton class="w-auto" :back="'/'"/>
         </div>
     </div>
 </template>
