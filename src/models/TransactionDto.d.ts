@@ -3,6 +3,8 @@ export default interface TransactionDto{
 
   date?: any
 
+  name?: string
+
   amount?: number
 
   previousAmount?: number

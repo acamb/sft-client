@@ -24,7 +24,7 @@ function deleteTransaction(transaction: TransactionDto){
     transactionStore.delete(wallet.value,transaction);
 }
 function deleteScheduledTransaction(transaction: ScheduledTransactionDto){
-    transactionStore.delete(wallet.value,transaction);
+    scheduledTransactionStore.delete(wallet.value,transaction);
 }
 </script>
 <template>
@@ -57,7 +57,7 @@ function deleteScheduledTransaction(transaction: ScheduledTransactionDto){
 
     <div>
         {{$t('scheduledTransactions')}}
-        <ScheduledTransactionList :wallet-id="walletId" :scheduledTransactions="scheduledTransactionStore.transactions(wallet)" @delete-transaction="deleteScheduledTransaction"></ScheduledTransactionList>
+        <ScheduledTransactionList :wallet-id="walletId" :scheduledTransactions="scheduledTransactionStore.transactions(wallet)" @delete-scheduled-transaction="deleteScheduledTransaction"></ScheduledTransactionList>
     </div>
     <BackButton/>
 </template>

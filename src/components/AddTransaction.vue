@@ -29,6 +29,10 @@ function canEdit(){
 <template>
 <form @submit.prevent="save">
     <div class="mb-3">
+        <label class="form-label" label-for="name">{{$t('name')}}</label>
+        <input class="form-control" type="name" id="name" required v-model="transaction.name" />
+    </div>
+    <div class="mb-3">
         <label class="form-label" label-for="date">{{$t('date')}}</label>
         <input class="form-control" type="date" id="date" required v-model="transaction.date" :disabled="!canEdit"/>
     </div>
@@ -46,7 +50,7 @@ function canEdit(){
     </div>
     <div class="mb-3">
         <label class="form-label" label-for="note">{{$t('note')}}</label>
-        <input class="form-control" id="note" required v-model="transaction.note"/>
+        <input class="form-control" id="note" v-model="transaction.note"/>
     </div>
     <button class="btn btn-outline-success">{{$t('save')}}</button>
     <BackButton/>

@@ -13,14 +13,9 @@ import { useWalletsStore } from './stores/wallets'
 import AddWallet from './components/AddWallet.vue'
 import AddCategory from './components/AddCategory.vue'
 import AddScheduledTransaction from './components/AddScheduledTransaction.vue'
-async function loadInitialData(){
-  const walletStore = useWalletsStore();
-  const categoryStore = useCategoryStore();
-   await walletStore.loadUserWallet(false);
-   await categoryStore.loadCategories(false);
-}
+
 export const routes = [
-    { path: '/', component: Home, beforeEnter: ()=> loadInitialData(), name: 'Home' },
+    { path: '/', component: Home, name: 'Home' },
     { path: '/wallets', component: Wallets },
     { path: '/categories', component: Categories },
     { path: '/addCategory', component: AddCategory },
