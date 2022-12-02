@@ -1,5 +1,4 @@
 import { useScheduledTransactionsStore } from './stores/scheduledTransactions';
-import { vue } from '@vitejs/plugin-vue';
 import { useCategoryStore } from './stores/category';
 
 import Home from './components/Home.vue'

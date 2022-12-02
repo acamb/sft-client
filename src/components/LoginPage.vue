@@ -28,7 +28,7 @@ async function login(){
                 <label for="username" class="form-label">{{ $t('username') }}</label><input class="form-control" id="username" v-model="username" required/>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">{{ $t('password') }}</label><input class="form-control" id="password" v-model="password" required/>
+                <label for="password" class="form-label">{{ $t('password') }}</label><input type="password" class="form-control" id="password" v-model="password" required/>
             </div>
             <button type="submit" class="btn btn-outline-success">{{ $t('login') }}</button> 
         </form>

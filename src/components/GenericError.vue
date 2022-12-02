@@ -1,4 +1,4 @@
-<script>
+<script setup lang="ts">
 </script>
 <template>
     <div class="alert alert-danger">Generic error</div>

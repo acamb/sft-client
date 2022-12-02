@@ -1,4 +1,4 @@
-import { useWalletsStore, useWalsStore } from './wallets';
+import { useWalletsStore } from './wallets';
 import CategoryDto from './../models/TransactionDto.d';
 import { defineStore } from 'pinia';
 import TransactionDto from "../models/TransactionDto"

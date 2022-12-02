@@ -10,7 +10,6 @@ import VueSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-import { dateFilter } from './DateUtils';
 const pinia = createPinia();
 const app = createApp(App);
 app.use(pinia);
