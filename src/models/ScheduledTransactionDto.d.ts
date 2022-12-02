@@ -3,7 +3,7 @@ export type RecurrentType = string | 'WEEKLY' | 'MONTHLY'
 export default interface ScheduledTransactionDto{
   id?: number
 
-  date?: any
+  date?: Date
 
   amount?: number
 
@@ -13,7 +13,7 @@ export default interface ScheduledTransactionDto{
 
   type?: RecurrentType
 
-  endDate?: any
+  endDate?: Date
 
   dayOfMonth?: number
 

@@ -40,7 +40,7 @@ const {wallets} = storeToRefs(walletStore)
             </div>
         </div>
     </div>
-    <BackButton/>
+    <BackButton back="/"/>
 </template>
 <style>
 .wallet-body{

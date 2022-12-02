@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.6",
+    "@vuepic/vue-datepicker": "^3.6.0",
     "axios": "^1.2.0",
     "bootstrap-icons": "^1.10.2",
+    "date-fns": "^2.29.3",
     "pinia": "^2.0.26",
     "vue": "^3.2.41",
     "vue-i18n": "^9.2.2",

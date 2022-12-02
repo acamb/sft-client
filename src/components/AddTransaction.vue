@@ -7,6 +7,7 @@ import { useTransactionsStore } from '../stores/transactions';
 import { useWalletsStore } from '../stores/wallets';
 import router from '../router'
 import BackButton from './BackButton.vue';
+import { storeToRefs } from 'pinia';
 
 const route = useRoute();
 
@@ -17,13 +18,15 @@ const transactionStore = useTransactionsStore();
 const wallet = walletStore.wallet(walletId);
 const categoryStore = useCategoryStore();
 categoryStore.loadCategories(false);
+const {categories} = storeToRefs(categoryStore);
 const transaction = ref(transactionStore.transaction(transactionId,wallet) ?? <TransactionDto>{});
 function save(){
     transactionStore.save(wallet,transaction.value);
     router.push("/wallets");
 }
 function canEdit(){
-    return transaction.value.id != undefined
+    console.log(`canEdit: ${transaction.value.id == undefined}, id: ${transaction.value.id}`)
+    return transaction.value.id == undefined
 }
 </script>
 <template>
@@ -34,15 +37,11 @@ function canEdit(){
     </div>
     <div class="mb-3">
         <label class="form-label" label-for="date">{{$t('date')}}</label>
-        <input class="form-control" type="date" id="date" required v-model="transaction.date" :disabled="!canEdit"/>
+        <date-picker  id="date" required v-model="transaction.date"  :enable-time-picker="false" :disabled="!canEdit()"/>
     </div>
     <div class="mb-3">
         <label class="form-label" label-for="amount">{{$t('amount')}}</label>
-        <input class="form-control" id="amount" v-model="transaction.amount"  :disabled="!canEdit"/>
-    </div>
-    <div class="mb-3" :hidden="canEdit">
-        <label class="form-label" label-for="previousAmount">{{$t('previousAmount')}}</label>
-        <input class="form-control" id="previousAmount" v-model="transaction.previousAmount"  />
+        <input class="form-control" id="amount" v-model="transaction.amount"  :disabled="!canEdit()"/>
     </div>
     <div class="mb-3">
         <label class="form-label" label-for="category">{{$t('category')}}</label>
@@ -53,6 +52,7 @@ function canEdit(){
         <input class="form-control" id="note" v-model="transaction.note"/>
     </div>
     <button class="btn btn-outline-success">{{$t('save')}}</button>
-    <BackButton/>
+    
 </form>
+<BackButton back="/wallets"/>
 </template>

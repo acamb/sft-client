@@ -28,36 +28,42 @@ function deleteScheduledTransaction(transaction: ScheduledTransactionDto){
 }
 </script>
 <template>
-    <div>
-        <router-link
-                    :to="{
-                        name: 'addTransaction',
-                        params: {walletId: wallet.id}
-                    }"
-                    custom
-                    v-slot="{ navigate }"
-                    >
-                    <button class="btn btn-outline-success" @click="navigate">Add transaction</button>
-        </router-link>
-        <router-link
-                    :to="{
-                        name: 'addScheduledTransaction',
-                        params: {walletId: wallet.id}
-                    }"
-                    custom
-                    v-slot="{ navigate }"
-                    >
-                    <button class="btn btn-outline-success" @click="navigate">Add scheduled transaction</button>
-        </router-link>
+    <div class="container">
+        <div class="row m-5-b">
+            <p><b>wallet</b>: {{wallet.name}}</p>
+            <p><b>balance</b>: {{wallet.balance}}</p>
+        </div>
+        <div class="p-5-b d-flex flex-column justify-content-center ">
+            <router-link
+                        :to="{
+                            name: 'addTransaction',
+                            params: {walletId: wallet.id}
+                        }"
+                        custom
+                        v-slot="{ navigate }"
+                        >
+                        <button class="btn btn-outline-success" @click="navigate">Add transaction</button>
+            </router-link>
+            <router-link
+                        :to="{
+                            name: 'addScheduledTransaction',
+                            params: {walletId: wallet.id}
+                        }"
+                        custom
+                        v-slot="{ navigate }"
+                        >
+                        <button class="btn btn-outline-success" @click="navigate">Add scheduled transaction</button>
+            </router-link>
+        </div>
+        <div class="m-5-t">
+            <b>{{$t('transactions')}}</b>
+            <TransactionList :wallet-id="walletId" :transactions="transactionStore.transactions(wallet)" @delete-transaction="deleteTransaction"></TransactionList>
+        </div>
+        
+        <div class="m-5-t">
+            <b>{{$t('scheduledTransactions')}}</b>
+            <ScheduledTransactionList :wallet-id="walletId" :scheduledTransactions="scheduledTransactionStore.transactions(wallet)" @delete-scheduled-transaction="deleteScheduledTransaction"></ScheduledTransactionList>
+        </div>
+        <BackButton back="/wallets"/>
     </div>
-    <div>
-        {{$t('transactions')}} //TODO search
-        <TransactionList :wallet-id="walletId" :transactions="transactionStore.transactions(wallet)" @delete-transaction="deleteTransaction"></TransactionList>
-    </div>
-
-    <div>
-        {{$t('scheduledTransactions')}}
-        <ScheduledTransactionList :wallet-id="walletId" :scheduledTransactions="scheduledTransactionStore.transactions(wallet)" @delete-scheduled-transaction="deleteScheduledTransaction"></ScheduledTransactionList>
-    </div>
-    <BackButton/>
 </template>

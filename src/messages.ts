@@ -16,6 +16,11 @@ export const messages = {
         category: 'Category',
         note: 'Note',
         back: 'Back',
-        addWallet: 'Add Wallet'
+        addWallet: 'Add Wallet',
+        transactions: 'Transactions',
+        scheduledTransactions: 'Scheduled transactions',
+        nextFire: 'Next fire',
+        endDate: 'End date',
+        recurrent: 'Recurrent'
     }
 }

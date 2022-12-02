@@ -24,13 +24,13 @@ function submit(){
     </div>
     <div class="mb-3">
         <label class="form-label" label-for="description">{{$t('description')}}</label>
-        <input class="form-control" id="description" v-model="wallet.description"/>
+        <input class="form-control" id="description" v-model="wallet.description" required/>
     </div>
     <div class="mb-3">
         <label class="form-label" label-for="balance">{{$t('balance')}}</label>
         <input type="number" class="form-control" id="balance" v-model="wallet.balance" required/>
     </div>
     <button class="btn btn-outline-success">{{$t('save')}}</button>
-    <BackButton/>
+    <BackButton back="/"/>
 </form>
 </template>

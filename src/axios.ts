@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { handleDates } from './DateUtils';
 import router from "./router"
 const baseURL = '/';
 
@@ -22,6 +23,12 @@ instance.interceptors.request.use(
       return Promise.reject(error);
     }
   );
+
+  instance.interceptors.response.use(originalResponse => {
+    handleDates(originalResponse.data);
+    return originalResponse;
+});
+
 instance.interceptors.response.use(
   (res) => { 
     return res

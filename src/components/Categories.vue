@@ -40,7 +40,7 @@ function editCategory(category: CategoryDto | undefined){
 </template>
 <style>
 .category-container{
-    width: 40vw;
+ 
 }
 .cat-box:hover{
     background-color: rgb(221, 221, 221);

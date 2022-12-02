@@ -1,7 +1,7 @@
 export default interface TransactionDto{
   id?: number
 
-  date?: any
+  date?: Date
 
   name?: string
 
