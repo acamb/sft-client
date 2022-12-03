@@ -4,4 +4,9 @@ export default interface CategoryDto{
   name?: string
 
   description?: string
+
+  canBePositive?: boolean
+
+  canBeNegative?: boolean
+
 }

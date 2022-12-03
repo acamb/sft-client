@@ -4,8 +4,7 @@ import './style.css'
 import App from './App.vue'
 import router from './router';
 import 'bootstrap';
-import {messages} from './messages';
-import {createI18n} from 'vue-i18n';
+import {i18n} from './i18n'
 import VueSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 import Datepicker from '@vuepic/vue-datepicker';
@@ -16,10 +15,6 @@ app.use(pinia);
 
 app.use(router);
 
-const i18n = createI18n({
-    locale: 'en',
-    messages
-});
 app.use(i18n);
 app.config.errorHandler = (err) => {
   console.log(err);

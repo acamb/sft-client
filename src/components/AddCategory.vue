@@ -17,7 +17,7 @@ function submit(){
 </script>
 <template>
 <div class="container">
-    <form @submit.prevent="submit">
+    <form @submit.prevent="()=>submit()">
         <div class="mb-3">
             <label class="form-label" label-for="name">{{$t('name')}}</label>
             <input class="form-control" id="name" required v-model="category.name"/>
@@ -25,6 +25,14 @@ function submit(){
         <div class="mb-3">
             <label class="form-label" label-for="description">{{$t('description')}}</label>
             <input class="form-control" id="description" v-model="category.description"/>
+        </div>
+        <div class="mb-3 form-check">
+            <label class="form-check-label" label-for="canBePositive">{{$t('canBePositive')}}</label>
+            <input class="form-check-input" type="checkbox" id="canBePositive" v-model="category.canBePositive"  />
+        </div>
+        <div class="mb-3 form-check">
+            <label class="form-check-label" label-for="canBeNegative">{{$t('canBeNegative')}}</label>
+            <input class="form-check-input" type="checkbox" id="canBeNegative" v-model="category.canBeNegative"  />
         </div>
         <button class="btn btn-outline-success">{{$t('save')}}</button>
         <BackButton back="/"/>

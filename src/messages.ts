@@ -21,6 +21,10 @@ export const messages = {
         scheduledTransactions: 'Scheduled transactions',
         nextFire: 'Next fire',
         endDate: 'End date',
-        recurrent: 'Recurrent'
+        recurrent: 'Recurrent',
+        canBePositive: 'Can be positive',
+        canBeNegative: 'Can be negative',
+        amountCantBeNegative: 'Amount can\'t be negative!',
+        amountCantBePositive: 'Amount can\'t be positive!'
     }
 }
