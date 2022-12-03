@@ -47,7 +47,7 @@ function canEdit(){
     </div>
     <div class="mb-3">
         <label class="form-label" label-for="amount">{{$t('amount')}}</label>
-        <input class="form-control" id="amount" v-model="transaction.amount"  required/>
+        <input class="form-control" type="number" step="0.01" id="amount" v-model="transaction.amount"  required/>
     </div>
     <div class="mb-3 form-check">
         <label class="form-check-label" label-for="recurrent">{{$t('recurrent')}}</label>
