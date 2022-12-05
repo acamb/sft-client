@@ -57,12 +57,12 @@ function deleteScheduledTransaction(transaction: ScheduledTransactionDto){
         </div>
         <div class="m-5-t">
             <b>{{$t('transactions')}}</b>
-            <TransactionList :wallet-id="walletId" :transactions="transactionStore.transactions(wallet)" @delete-transaction="deleteTransaction"></TransactionList>
+            <TransactionList :wallet-id="walletId" :transactions="transactionStore.transactions" @delete-transaction="deleteTransaction"></TransactionList>
         </div>
         
         <div class="m-5-t">
             <b>{{$t('scheduledTransactions')}}</b>
-            <ScheduledTransactionList :wallet-id="walletId" :scheduledTransactions="scheduledTransactionStore.transactions(wallet)" @delete-scheduled-transaction="deleteScheduledTransaction"></ScheduledTransactionList>
+            <ScheduledTransactionList :wallet-id="walletId" :scheduledTransactions="scheduledTransactionStore.transactions" @delete-scheduled-transaction="deleteScheduledTransaction"></ScheduledTransactionList>
         </div>
         <BackButton back="/wallets"/>
     </div>
