@@ -2,13 +2,18 @@
 import TransactionDto from '../models/TransactionDto';
 import WalletDto from '../models/WalletDto';
 import {formatDate} from '../DateUtils'
+import Paginator from './Paginator.vue';
+import { number } from '@intlify/core-base';
 const props = defineProps({
     transactions: {type: Array<TransactionDto>,required: true},
-        walletId: {type: Number, required: true}
+        walletId: {type: Number, required: true},
+        page: {type: Number,required: true},
+        pages:{type: Number,required: true}
 });
 
 const emit = defineEmits<{
-  (e: 'delete-transaction', transaction: TransactionDto): void
+  (e: 'delete-transaction', transaction: TransactionDto): void,
+  (e: 'page-change', index: number): void
 }>();
 
 </script>
@@ -43,5 +48,6 @@ const emit = defineEmits<{
             </tr>
         </tbody>
     </table>
+    <Paginator :page="props.page" :total-pages="props.pages" @change="(i)=>$emit('page-change',i)"/>
 </div>
 </template>

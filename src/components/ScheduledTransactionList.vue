@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import ScheduledTransactionDto from '../models/ScheduledTransactionDto';
 import {formatDate} from '../DateUtils'
+import Paginator from './Paginator.vue';
 const props = defineProps({
     scheduledTransactions: {type: Array<ScheduledTransactionDto>,required: true},
-    walletId: {type: Number, required: true}
+    walletId: {type: Number, required: true},
+    page: {type: Number,required: true},
+    pages:{type: Number,required: true}
 });
 
 const emit = defineEmits<{
-  (e: 'delete-scheduled-transaction', transaction: ScheduledTransactionDto): void
+  (e: 'delete-scheduled-transaction', transaction: ScheduledTransactionDto): void,
+  (e: 'page-change', index: number): void
 }>();
 
 </script>
@@ -44,5 +48,6 @@ const emit = defineEmits<{
             </tr>
         </tbody>
     </table>
+    <Paginator :page="props.page" :total-pages="props.pages" @change="(i)=>$emit('page-change',i)"/>
 </div>
 </template>

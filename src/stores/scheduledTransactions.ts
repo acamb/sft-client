@@ -82,6 +82,9 @@ export const useScheduledTransactionsStore = defineStore('scheduledTransactions'
                 }
             });
             await this.loadScheduledTransactions(wallet,true,this.pageRequest,this.search);
+        },
+        async pageChange(page: number){
+            await this.loadScheduledTransactions(this.wallet!,true,{...this.pageRequest,page},undefined);
         }
     }
 });

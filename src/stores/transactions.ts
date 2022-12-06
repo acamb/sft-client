@@ -92,6 +92,9 @@ export const useTransactionsStore = defineStore('transactions',{
             await axios.delete(`api/transaction/`,{data:{walletDto:wallet,transactionDto:transaction}});
             await walletsStore.refreshWallet(wallet);
             await this.loadTransactions(wallet,true,this.pageRequest,undefined);
+        },
+        async pageChange(page: number){
+            await this.loadTransactions(this.wallet!,true,{...this.pageRequest,page},undefined);
         }
     }
 });
