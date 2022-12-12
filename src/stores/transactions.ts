@@ -58,7 +58,7 @@ export const useTransactionsStore = defineStore('transactions',{
             if(force || search != this.search || page != this.pageRequest || this.transactions.length == 0){
                 let pageRequest = page ?? this.pageRequest;
                 //TODO search filters
-                let response = await axios.get<PaginatedResponse<TransactionDto>>(`api/transaction/${wallet.id}page=${pageRequest.page}&size=${pageRequest.size}`);
+                let response = await axios.get<PaginatedResponse<TransactionDto>>(`api/transaction/${wallet.id}?page=${pageRequest.page}&size=${pageRequest.size}`);
                 this.transactions = response.data.items || [];
                 this.search = search ?? this.search;
                 this.totalElements = response.data.totalItems;

@@ -4,13 +4,13 @@ import WalletDto from '../models/WalletDto';
 import {formatDate} from '../DateUtils'
 import Paginator from './Paginator.vue';
 import { number } from '@intlify/core-base';
+import { ref } from 'vue';
 const props = defineProps({
     transactions: {type: Array<TransactionDto>,required: true},
         walletId: {type: Number, required: true},
         page: {type: Number,required: true},
         pages:{type: Number,required: true}
 });
-
 const emit = defineEmits<{
   (e: 'delete-transaction', transaction: TransactionDto): void,
   (e: 'page-change', index: number): void
@@ -22,14 +22,14 @@ const emit = defineEmits<{
     <table class="table table-striped table-responsive  table-sm">
         <thead>
             <th>{{$t('date')}}</th>
-            <th>{{$t('category')}}</th>
+            <th>{{$t('name')}}</th>
             <th>{{$t('amount')}}</th>
             <th></th>
         </thead>
         <tbody>
             <tr v-for="transaction in props.transactions">
                 <td>{{formatDate(transaction.date)}}</td>
-                <td>{{transaction.categoryDto?.name}}</td>
+                <td>{{transaction.name}}</td>
                 <td>{{transaction.amount}}</td>
                 <td>
                      <router-link

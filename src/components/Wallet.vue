@@ -73,7 +73,9 @@ function deleteScheduledTransaction(transaction: ScheduledTransactionDto){
                 :scheduledTransactions="scheduledTransactionStore.transactions" 
                 :page="scheduledTransactionStore.page" 
                 :pages="scheduledTransactionStore.totalPages" 
-                @delete-scheduled-transaction="deleteScheduledTransaction"></ScheduledTransactionList>
+                @delete-scheduled-transaction="deleteScheduledTransaction"
+                @page-change="(i)=>scheduledTransactionStore.pageChange(i)"
+                ></ScheduledTransactionList>
         </div>
         <BackButton back="/wallets"/>
     </div>

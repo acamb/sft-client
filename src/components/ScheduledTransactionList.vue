@@ -2,6 +2,7 @@
 import ScheduledTransactionDto from '../models/ScheduledTransactionDto';
 import {formatDate} from '../DateUtils'
 import Paginator from './Paginator.vue';
+import { ref } from 'vue';
 const props = defineProps({
     scheduledTransactions: {type: Array<ScheduledTransactionDto>,required: true},
     walletId: {type: Number, required: true},
