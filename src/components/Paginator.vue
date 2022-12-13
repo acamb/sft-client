@@ -57,8 +57,6 @@ function click(page: Page){
 </ul>
 </template>
 <style>
-.page{
-}
 .page-shrink{
     color: gray;
     font-style: italic;

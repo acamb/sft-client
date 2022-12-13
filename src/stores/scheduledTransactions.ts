@@ -17,10 +17,9 @@ export type TransactionsState = {
     pageRequest: PageRequest
 }
 export type Search = {
-    date?: Date,
-    note?: string,
+    startDate?: Date,
+    endDate?: Date,
     category?: CategoryDto,
-    id?: number,
     name?: string
 }
 
@@ -47,11 +46,23 @@ export const useScheduledTransactionsStore = defineStore('scheduledTransactions'
     actions: {
         async loadScheduledTransactions(wallet: WalletDto,force: boolean,page?: PageRequest,search?: Search){
             if(force || search != this.search || page != this.pageRequest ||  this.transactions.length == 0){
-                let pageRequest = page ?? this.pageRequest;
-                //TODO search filters
-                let response = await axios.get<PaginatedResponse<ScheduledTransactionDto>>(`/api/scheduled/${wallet.id}?page=${pageRequest.page}&size=${pageRequest.size}`);
-                this.transactions = response.data.items || [];
                 this.search = search ?? this.search;
+                let pageRequest = page ?? this.pageRequest;
+                let query = `page=${pageRequest.page}&size=${pageRequest.size}`
+                if(this.search?.startDate){
+                    query += `&startDate=${this.search.startDate.toISOString()}`
+                }
+                if(this.search?.endDate){
+                    query += `&endDate=${this.search.endDate.toISOString()}`
+                }
+                if(this.search?.name){
+                    query += `&name=${this.search.name}`
+                }
+                if(this.search?.category){
+                    query += `&category=${this.search.category.id}`
+                }
+                let response = await axios.get<PaginatedResponse<ScheduledTransactionDto>>(`/api/scheduled/${wallet.id}?${query}`);
+                this.transactions = response.data.items || [];
                 this.totalElements = response.data.totalItems;
                 this.totalPages = response.data.totalPages;
                 this.page = response.data.currentPage;
