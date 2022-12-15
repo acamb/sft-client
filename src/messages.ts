@@ -25,6 +25,39 @@ export const messages = {
         canBePositive: 'Can be positive',
         canBeNegative: 'Can be negative',
         amountCantBeNegative: 'Amount can\'t be negative!',
-        amountCantBePositive: 'Amount can\'t be positive!'
+        amountCantBePositive: 'Amount can\'t be positive!',
+        errors : {
+            category :{
+                notExists: "Category doesn't exists",
+                exists: "Category already exists"
+            },
+            recurrent:{
+                notSupported: 'Type not supported'
+            },
+            scheduledTransaction:{
+                exists: 'Scheduled transaction already exist'
+            },
+            dom:{
+                isNull : "Day of month can't be null"
+            },
+            dow:{
+                isNull : "Day of week can't be null"
+            },
+            transaction:{
+                exists: "Transaction already exists",
+                notFound: "Transaction doesn't exists"
+            },
+            amount:{
+                cantBeNegative: "Amount can't be negative",
+                cantBePositive: "Amount can't be positive",
+            },
+            wallet:{
+                exits: 'Wallet already exists',
+                notFound: "Wallet doesn't exist"
+            },
+            balance:{
+                negative: "Balance can't be negative"
+            }
+        }
     }
 }

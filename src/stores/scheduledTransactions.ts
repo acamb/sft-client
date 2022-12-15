@@ -1,3 +1,6 @@
+import { initialPageRequest } from './transactions';
+import { PageRequest } from './PageRequest';
+import { PaginatedResponse } from './PaginatedResponse';
 import CategoryDto from '../models/CategoryDto';
 import { defineStore } from 'pinia';
 import ScheduledTransactionDto from "../models/ScheduledTransactionDto"
@@ -5,53 +8,67 @@ import WalletDto from "../models/WalletDto"
 import axios from "../axios"
 
 export type TransactionsState = {
-    transactionsMap: Map<WalletDto,ScheduledTransactionDto[]>
-
+    transactions: ScheduledTransactionDto[],
+    search?: Search,
+    page: number,
+    max: number,
+    totalPages: number,
+    totalElements: number,
+    wallet?: WalletDto,
+    pageRequest: PageRequest
 }
 export type Search = {
-    date?: Date,
-    note?: string,
+    startDate?: Date,
+    endDate?: Date,
     category?: CategoryDto,
-    id?: number
+    name?: string
 }
 
 export const useScheduledTransactionsStore = defineStore('scheduledTransactions',{
     state: () => ({
-        transactionsMap: new Map()
+        transactions: [],
+        page: 0,
+        max: 10,
+        totalElements: 0,
+        totalPages: 0,
+        wallet: undefined,
+        pageRequest: initialPageRequest
     }) as TransactionsState,
     getters: {
-        transactions(state: TransactionsState){
-            return (wallet: WalletDto) : ScheduledTransactionDto[] => {
-                return (state.transactionsMap.get(wallet) ?? [])!;
-            }
-        },
         transaction(state: TransactionsState){
             return (transactionId: number,wallet: WalletDto) : ScheduledTransactionDto | undefined => {
-                return state.transactionsMap.get(wallet)?.find(t => t.id === transactionId);
-            }
-        },
-        search(state){
-            return (wallet: WalletDto,search: Search)=> {
-                let filtered: ScheduledTransactionDto[] = [];
-                if(search.id){
-                    return this.transactions(wallet)?.filter(t => t.id === search.id);
+                if(wallet != state.wallet){
+                    throw new Error('not loaded?');
                 }
-                if(search.category){
-                    filtered = this.transactions(wallet)?.filter(t => t.categoryDto === search.category);
-                }
-                if(search.date){
-                    filtered = this.transactions(wallet)?.filter(t => t.date === search.date);
-                }
-                return filtered;
+                return state.transactions?.find(t => t.id === transactionId);
             }
         }
     },
     actions: {
-        async loadScheduledTransactions(wallet: WalletDto,force: boolean){
-            if(force ||  this.transactions(wallet).length == 0){
-                //TODO search filters
-                let response = await axios.get<Array<ScheduledTransactionDto>>(`/api/scheduled/${wallet.id}`);
-                this.transactionsMap.set(wallet,response?.data ?? []);
+        async loadScheduledTransactions(wallet: WalletDto,force: boolean,page?: PageRequest,search?: Search){
+            if(force || search != this.search || page != this.pageRequest ||  this.transactions.length == 0){
+                this.search = search ?? this.search;
+                let pageRequest = page ?? this.pageRequest;
+                let query = `page=${pageRequest.page}&size=${pageRequest.size}`
+                if(this.search?.startDate){
+                    query += `&startDate=${this.search.startDate.toISOString()}`
+                }
+                if(this.search?.endDate){
+                    query += `&endDate=${this.search.endDate.toISOString()}`
+                }
+                if(this.search?.name){
+                    query += `&name=${this.search.name}`
+                }
+                if(this.search?.category){
+                    query += `&category=${this.search.category.id}`
+                }
+                let response = await axios.get<PaginatedResponse<ScheduledTransactionDto>>(`/api/scheduled/${wallet.id}?${query}`);
+                this.transactions = response.data.items || [];
+                this.totalElements = response.data.totalItems;
+                this.totalPages = response.data.totalPages;
+                this.page = response.data.currentPage;
+                this.wallet = wallet;
+                this.pageRequest = pageRequest;
             }
         },
         async save(wallet: WalletDto,scheduled: ScheduledTransactionDto){
@@ -67,7 +84,7 @@ export const useScheduledTransactionsStore = defineStore('scheduledTransactions'
                     scheduledTransaction: scheduled
                 });
             }
-            await this.loadScheduledTransactions(wallet,true);
+            await this.loadScheduledTransactions(wallet,true,this.pageRequest,this.search);
         },
         async delete(wallet: WalletDto,scheduled: ScheduledTransactionDto){
             await axios.delete("/api/scheduled/",{
@@ -76,7 +93,10 @@ export const useScheduledTransactionsStore = defineStore('scheduledTransactions'
                     scheduledTransaction: scheduled
                 }
             });
-            await this.loadScheduledTransactions(wallet,true);
+            await this.loadScheduledTransactions(wallet,true,this.pageRequest,this.search);
+        },
+        async pageChange(page: number){
+            await this.loadScheduledTransactions(this.wallet!,true,{...this.pageRequest,page},undefined);
         }
     }
 });
