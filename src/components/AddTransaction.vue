@@ -37,7 +37,6 @@ function save(){
     router.push("/wallets");
 }
 function canEdit(){
-    console.log(`canEdit: ${transaction.value.id == undefined}, id: ${transaction.value.id}`)
     return transaction.value.id == undefined
 }
 </script>

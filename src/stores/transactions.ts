@@ -20,8 +20,8 @@ export type TransactionsState = {
 }
 
 export enum transactionType{
-    INCOME,
-    OUTCOME
+    INCOME = 'INCOME',
+    OUTCOME = 'OUTCOME'
 }
 
 export type Search = {
@@ -32,6 +32,8 @@ export type Search = {
     name?: string
 }
 
+export const initialPageRequest = {page:0,size:10};
+
 export const useTransactionsStore = defineStore('transactions',{
     state: () => ({
         transactions: [],
@@ -41,7 +43,7 @@ export const useTransactionsStore = defineStore('transactions',{
         totalElements: 0,
         totalPages: 0,
         wallet: undefined,
-        pageRequest: {page:0,size:10}
+        pageRequest: initialPageRequest
     }) as TransactionsState,
     getters: {
         transaction(state: TransactionsState){
@@ -70,6 +72,9 @@ export const useTransactionsStore = defineStore('transactions',{
                 }
                 if(this.search?.category){
                     query += `&category=${this.search.category.id}`
+                }
+                if(this.search?.type){
+                    query += `&type=${transactionType[this.search.type]}`
                 }
                 let response = await axios.get<PaginatedResponse<TransactionDto>>(`api/transaction/${wallet.id}?${query}`);
                 this.transactions = response.data.items || [];
