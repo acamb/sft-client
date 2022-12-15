@@ -39,7 +39,7 @@ instance.interceptors.response.use(
         router.push("/login");
     }
     else {
-      router.push('/error');
+      router.push('/error' + (err.response?.data?.message ? `?message=${err.response.data.message}` : ''));
       return Promise.reject(err);
     }
   }

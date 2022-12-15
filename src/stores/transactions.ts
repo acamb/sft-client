@@ -48,7 +48,7 @@ export const useTransactionsStore = defineStore('transactions',{
     getters: {
         transaction(state: TransactionsState){
             return (id: number,wallet: WalletDto) : TransactionDto | undefined => {
-                if(wallet != state.wallet){
+                if(id && wallet != state.wallet){
                     throw new Error('not loaded?');
                 }
                 return state.transactions?.find(t => t.id === id);
