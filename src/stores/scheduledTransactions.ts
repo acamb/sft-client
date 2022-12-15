@@ -1,3 +1,4 @@
+import { initialPageRequest } from './transactions';
 import { PageRequest } from './PageRequest';
 import { PaginatedResponse } from './PaginatedResponse';
 import CategoryDto from '../models/CategoryDto';
@@ -31,7 +32,7 @@ export const useScheduledTransactionsStore = defineStore('scheduledTransactions'
         totalElements: 0,
         totalPages: 0,
         wallet: undefined,
-        pageRequest: {page: 0,size: 10}
+        pageRequest: initialPageRequest
     }) as TransactionsState,
     getters: {
         transaction(state: TransactionsState){
