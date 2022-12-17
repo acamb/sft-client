@@ -64,6 +64,10 @@ function canEdit(){
             <label class="form-label" label-for="note">{{$t('note')}}</label>
             <input class="form-control" id="note" v-model="transaction.note"/>
         </div>
+        <div class="mb-3">
+            <label class="form-check-label" label-for="scheduled">{{$t('scheduled')}}</label>
+            <input class="form-check-input" id="scheduled" type="checkbox" v-model="transaction.scheduled"/>
+        </div>
         <button class="btn btn-outline-success">{{$t('save')}}</button>
         
     </form>

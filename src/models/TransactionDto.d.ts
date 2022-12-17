@@ -14,4 +14,6 @@ export default interface TransactionDto{
   note?: string
 
   userDto?: UserDto
+
+  scheduled?: boolean
 }
