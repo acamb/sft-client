@@ -28,7 +28,7 @@ const wallet = ref(walletStore.wallet(walletId));
                         custom
                         v-slot="{ navigate }"
                         >
-                        <button class="btn btn-outline-success mb-3" @click="navigate">Add transaction</button>
+                        <button class="btn btn-outline-danger mb-3" @click="navigate">Add transaction</button>
             </router-link>
             <router-link
                         :to="{
@@ -38,7 +38,17 @@ const wallet = ref(walletStore.wallet(walletId));
                         custom
                         v-slot="{ navigate }"
                         >
-                        <button class="btn btn-outline-success" @click="navigate">Add scheduled transaction</button>
+                        <button class="btn btn-outline-danger mb-3" @click="navigate">Add scheduled transaction</button>
+            </router-link>
+            <router-link
+                        :to="{
+                            name: 'statistics',
+                            params: {walletId: wallet.id}
+                        }"
+                        custom
+                        v-slot="{ navigate }"
+                        >
+                        <button class="btn btn-outline-primary" @click="navigate">Statistics</button>
             </router-link>
         </div>
         <div class="row">
