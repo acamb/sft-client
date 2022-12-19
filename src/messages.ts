@@ -82,6 +82,7 @@ export const messages = {
         search: 'Search',
         month: "Month",
         startDate: 'Start date',
-        value: 'Value'
+        value: 'Value',
+        estimatedNet: 'Estimated end balance'
     }
 }

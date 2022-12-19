@@ -6,13 +6,16 @@ import { useI18n } from 'vue-i18n';
 import { loadRouteLocation, useRoute } from 'vue-router';
 import WalletDto from '../models/WalletDto';
 import {useStatisticsStore} from "../stores/statistics";
+import {usePrevisionStore} from "../stores/prevision";
 import { useWalletsStore } from '../stores/wallets';
 import BackButton from './BackButton.vue';
+import PrevisionChart from './PrevisionChart.vue';
 import StatisticsCharts from './StatisticsCharts.vue';
 
 enum RangeSelection {
     CURRENT="Current",
     MONTH="Pick month",
+    YEAR="Pick year",
     RANGE="Pick range"
 }
 
@@ -21,7 +24,7 @@ interface Month{
     idx: number
 }
 const currentSelection = ref(RangeSelection.CURRENT);
-
+const currentPrevisionSelection = ref(RangeSelection.MONTH);
 const i18n = useI18n();
 
 const months: Array<Month> = [
@@ -41,12 +44,19 @@ const months: Array<Month> = [
 
 const route = useRoute();
 const walletId = Number.parseInt(<string>route.params.walletId);
+
 const statisticsStore = useStatisticsStore();
-const {statistics} = storeToRefs(statisticsStore);
+const {incomes,expenses,expensesByCategory} = storeToRefs(statisticsStore);
+
+const previsionStore = usePrevisionStore();
+const {estimated,endBalanceEstimated,prevision} = storeToRefs(previsionStore);
+
 const walletStore = useWalletsStore();
 const today = new Date();
 const startDate = ref(new Date(today.getFullYear(),today.getMonth(),1));
 const endDate = ref(new Date());
+const previsionStartDate = ref(new Date(today.getFullYear(),today.getMonth(),1));
+const previsionEndDate = ref(new Date(today.getFullYear(),today.getMonth()+1,0));
 let wallet: WalletDto;
 loadData();
 
@@ -58,6 +68,11 @@ async function loadData(){
 
 function searchStatistics(){
     statisticsStore.loadStatistics(wallet,{startDate: startDate.value,endDate: endDate.value});
+    searchPrevision();
+}
+
+function searchPrevision(){
+    previsionStore.loadStatistics(wallet,{startDate: previsionStartDate.value,endDate: previsionEndDate.value});
 }
 
 function rangeSelectionToDates(range: RangeSelection,month?: number){
@@ -72,6 +87,21 @@ function rangeSelectionToDates(range: RangeSelection,month?: number){
         startDate.value = new Date(today.getFullYear(),month,1);
         endDate.value = new Date(today.getFullYear(),month+1,0);
         searchStatistics();
+    }
+    //RangeSelection.RANGE sets directly startDate and endDate
+}
+
+function rangePrevisionToDates(range: RangeSelection,month?: number){
+    
+    if(range === RangeSelection.MONTH){
+        previsionStartDate.value = new Date(today.getFullYear(),today.getMonth(),1);
+        previsionEndDate.value = new Date(today.getFullYear(),today.getMonth()+1,0);
+        searchPrevision();
+    }
+    else if(range === RangeSelection.YEAR){
+        previsionStartDate.value = new Date(today.getFullYear(),1,1);
+        previsionEndDate.value = new Date(today.getFullYear()+1,12,1);
+        searchPrevision();
     }
     //RangeSelection.RANGE sets directly startDate and endDate
 }
@@ -102,8 +132,35 @@ function rangeSelectionToDates(range: RangeSelection,month?: number){
             <button class="btn btn-outline-success" @click="searchStatistics">{{$t('search')}}</button>
         </div>
     </div>
-    <div class="row" v-if="statistics?.expensesByCategory">
-        <StatisticsCharts :statistics="statistics"></StatisticsCharts>
+    <div class="row" v-if="expensesByCategory">
+        <h3>{{ $t('statistics') }}</h3>
+        <StatisticsCharts :incomes="incomes" :expenses="expenses" :expenses-by-category="expensesByCategory"></StatisticsCharts>
+    </div>
+    <div class="row">
+        <h3>{{ $t('previsions') }}</h3>
+        <div class="col-md-12"></div>
+        <div class="btn-group" role="group">
+            <input type="radio" class="btn-check" name="btnPrevisionRange" id="btnPrevisionCurrent" autocomplete="off" checked @click="currentPrevisionSelection = RangeSelection.MONTH;rangePrevisionToDates(RangeSelection.MONTH)">
+            <label class="btn btn-outline-success" for="btnPrevisionCurrent">{{$t('month')}}</label>
+
+            <input type="radio" class="btn-check" name="btnPrevisionRange" id="btnPrevisionMonth" autocomplete="off" @click="currentPrevisionSelection = RangeSelection.YEAR;rangePrevisionToDates(RangeSelection.YEAR)">
+            <label class="btn btn-outline-success" for="btnPrevisionMonth">{{$t('year')}}</label>
+
+            <input type="radio" class="btn-check" name="btnPrevisionRange" id="btnPrevisionRange" autocomplete="off" @click="currentPrevisionSelection = RangeSelection.RANGE">
+            <label class="btn btn-outline-success" for="btnPrevisionRange">{{$t('pickRange')}}</label>
+        </div>
+        <div class="col-md-12">
+            <div v-if="currentPrevisionSelection === RangeSelection.RANGE">
+                <label for="previsionStartDate">{{$t('startDate')}}</label>
+                <date-picker  id="previsionStartDate" required v-model="previsionStartDate" :enable-time-picker="false" />
+                <label for="previsionEndDate">{{$t('endDate')}}</label>
+                <date-picker  id="previsionEndDate" required v-model="previsionEndDate" :enable-time-picker="false" />
+                <button class="btn btn-outline-success" @click="searchPrevision">{{$t('search')}}</button>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <PrevisionChart :prevision="prevision" :estimation="estimated" :end-balance-estimated="endBalanceEstimated"></PrevisionChart>
+        </div>
     </div>
     <BackButton></BackButton>
 </div>
