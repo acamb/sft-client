@@ -62,8 +62,8 @@ function doSearch(){
             :scheduledTransactions="scheduledTransactionStore.transactions" 
             :page="scheduledTransactionStore.page" 
             :pages="scheduledTransactionStore.totalPages" 
-            @delete-scheduled-transaction="deleteScheduledTransaction"
-            @page-change="(i: number)=>scheduledTransactionStore.pageChange(i)"
+            @scheduled-delete-transaction="deleteScheduledTransaction"
+            @scheduled-page-change="(i: number)=>scheduledTransactionStore.pageChange(i)"
             ></ScheduledTransactionList>
     </div>
 </div>

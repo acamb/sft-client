@@ -67,8 +67,8 @@ function doSearch(){
                 :transactions="transactionStore.transactions" 
                 :page="transactionStore.page" 
                 :pages="transactionStore.totalPages" 
-                @delete-transaction="deleteTransaction"
-                @page-change="(i: number)=>transactionStore.pageChange(i)"></TransactionList>
+                @transaction-delete-transaction="deleteTransaction"
+                @transaction-page-change="(i: number)=>transactionStore.pageChange(i)"></TransactionList>
         </div>
     </div>
 </template>
