@@ -11,8 +11,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits<{
-  (e: 'delete-scheduled-transaction', transaction: ScheduledTransactionDto): void,
-  (e: 'page-change', index: number): void
+  (e: 'scheduled-delete-transaction', transaction: ScheduledTransactionDto): void,
+  (e: 'scheduled-page-change', index: number): void
 }>();
 
 </script>
@@ -44,11 +44,11 @@ const emit = defineEmits<{
                     <button class="btn btn-outline-primary" @click="navigate"><i class="bi bi-pencil-square"></i></button>
                 </router-link>
                     
-                    <button class="btn btn-outline-danger" @click="$emit('delete-scheduled-transaction',transaction)"><i class="bi bi-x-circle"></i></button>
+                    <button class="btn btn-outline-danger" @click="$emit('scheduled-delete-transaction',transaction)"><i class="bi bi-x-circle"></i></button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <Paginator :page="props.page" :total-pages="props.pages" @change="(i)=>$emit('page-change',i)"/>
+    <Paginator :page="props.page" :total-pages="props.pages" @change="(i)=>$emit('scheduled-page-change',i)"/>
 </div>
 </template>

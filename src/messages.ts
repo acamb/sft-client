@@ -58,6 +58,30 @@ export const messages = {
             balance:{
                 negative: "Balance can't be negative"
             }
-        }
+        },
+        months: {
+            gen: 'Genuary',
+            feb: 'February',
+            mar: 'March',
+            apr: 'April',
+            may: 'May',
+            jun: 'June',
+            jul: 'July',
+            ago: 'Agoust',
+            sep: 'September',
+            oct: 'October',
+            nov: 'November',
+            dec: 'December'
+        },
+        current: 'Current',
+        pickMonth: 'Pick month',
+        pickRange: 'Pick range',
+        totalIncome: 'Total income',
+        totalOutcome: 'Total outcome',
+        netValue: 'Net',
+        search: 'Search',
+        month: "Month",
+        startDate: 'Start date',
+        value: 'Value'
     }
 }

@@ -57,7 +57,7 @@ export const useTransactionsStore = defineStore('transactions',{
     },
     actions: {
         async loadTransactions(wallet: WalletDto,force: boolean,page?: PageRequest,search?: Search){
-            if(force || search != this.search || page != this.pageRequest || this.transactions.length == 0){
+            if(wallet.id !== this.wallet?.id || force || search != this.search || page != this.pageRequest || this.transactions.length == 0){
                 let pageRequest = page ?? this.pageRequest;
                 this.search = search ?? this.search;
                 let query = `page=${pageRequest.page}&size=${pageRequest.size}`

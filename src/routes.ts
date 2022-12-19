@@ -1,6 +1,3 @@
-import { useScheduledTransactionsStore } from './stores/scheduledTransactions';
-import { useCategoryStore } from './stores/category';
-
 import Home from './components/Home.vue'
 import Wallets from './components/Wallets.vue'
 import Categories from './components/Categories.vue'
@@ -12,6 +9,8 @@ import { useWalletsStore } from './stores/wallets'
 import AddWallet from './components/AddWallet.vue'
 import AddCategory from './components/AddCategory.vue'
 import AddScheduledTransaction from './components/AddScheduledTransaction.vue'
+import Statistics from './components/Statistics.vue'
+
 
 export const routes = [
     { path: '/', component: Home, name: 'Home' },
@@ -26,6 +25,7 @@ export const routes = [
     { path: '/addWallet', component: AddWallet },
     { path: '/editWallet/:id', component: AddWallet },
     { path: '/wallet/:id', component: Wallet, name: 'wallet'},
+    { path: '/statistics/:walletId', component: Statistics, name: 'statistics'},
     { path: '/login', component: LoginPage, name: 'Login' },
     { path: '/error', component: GenericError, name: 'error' }
   ];

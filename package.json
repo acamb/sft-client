@@ -1,7 +1,7 @@
 {
   "name": "sft-client",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,6 +13,8 @@
     "@vuepic/vue-datepicker": "^3.6.0",
     "axios": "^1.2.0",
     "bootstrap-icons": "^1.10.2",
+    "chart.js": "^4.1.1",
+    "chartjs-plugin-autocolors": "^0.1.0",
     "date-fns": "^2.29.3",
     "pinia": "^2.0.26",
     "vue": "^3.2.41",

@@ -8,7 +8,7 @@ export type CategoryState = {
 
 export const useCategoryStore = defineStore('categories',{
     state: () => ({
-        categories: <unknown> undefined
+        categories: []
     }) as CategoryState,
     getters: {
         category(state){
@@ -17,8 +17,10 @@ export const useCategoryStore = defineStore('categories',{
     },
     actions: {
         async loadCategories(force: boolean){
-            let response = await axios.get<Array<CategoryDto>>("/api/category/all");
-            this.categories = response.data ?? [];
+            if(this.categories.length == 0 || force ){
+                let response = await axios.get<Array<CategoryDto>>("/api/category/all");
+                this.categories = response.data ?? [];
+            }
         },
         async save(category: CategoryDto){
             if(category.id){
