@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { WalletStatistics } from '../models/WalletStatistics';
-import Chart from 'chart.js/auto';
+import Chart, { ChartItem } from 'chart.js/auto';
 import { useI18n } from 'vue-i18n';
 import { watch } from 'vue';
+import autocolors from 'chartjs-plugin-autocolors';
 
 const props = defineProps<{
     statistics: WalletStatistics
@@ -15,9 +16,17 @@ function createChart(){
     if(chart != undefined){
         chart.destroy();
     }
-    chart = new Chart(document.getElementById("expensesByCategory"),{
+    chart = new Chart(<ChartItem>document.getElementById("expensesByCategory"),{
         type: 'doughnut',
-        data: statisticsToChartData(props.statistics)
+        data: statisticsToChartData(props.statistics),
+        plugins: [{id:'autocolor',...autocolors}],
+        options: {
+            plugins: {
+            autocolors: {
+                mode: 'data'
+            }
+        }
+  }
     });
 }
 
@@ -26,8 +35,8 @@ function statisticsToChartData(statistics: WalletStatistics){
     return {
         labels: categories,
         datasets: [{
-            label: i18n.t('expensesByCategory'),
-            data: categories.map(c => statistics.expensesByCategory[c])
+            label: i18n.t('value'),
+            data: categories.map(c => statistics.expensesByCategory[<keyof {}>c])
         }]
     }
 }
@@ -47,7 +56,7 @@ function statisticsToChartData(statistics: WalletStatistics){
                 Expenses:
                 <ul>
                     <li v-for="category in Object.keys(statistics.expensesByCategory)">
-                        {{ category }}: {{ statistics.expensesByCategory[category] }}
+                        {{ category }}: {{ statistics.expensesByCategory[<keyof {}>category] }}
                     </li>
                 </ul>
             </div>

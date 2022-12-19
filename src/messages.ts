@@ -81,6 +81,7 @@ export const messages = {
         netValue: 'Net',
         search: 'Search',
         month: "Month",
-        startDate: 'Start date'
+        startDate: 'Start date',
+        value: 'Value'
     }
 }
