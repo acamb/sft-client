@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { stringifyExpression } from '@vue/compiler-core';
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { loadRouteLocation, useRoute } from 'vue-router';
 import WalletDto from '../models/WalletDto';
 import {useStatisticsStore} from "../stores/statistics";
 import { useWalletsStore } from '../stores/wallets';
+import BackButton from './BackButton.vue';
 import StatisticsCharts from './StatisticsCharts.vue';
 
 enum RangeSelection {
@@ -40,6 +42,7 @@ const months: Array<Month> = [
 const route = useRoute();
 const walletId = Number.parseInt(<string>route.params.walletId);
 const statisticsStore = useStatisticsStore();
+const {statistics} = storeToRefs(statisticsStore);
 const walletStore = useWalletsStore();
 const today = new Date();
 const startDate = ref(new Date(today.getFullYear(),today.getMonth(),1));
@@ -99,8 +102,9 @@ function rangeSelectionToDates(range: RangeSelection,month?: number){
             <button class="btn btn-outline-success" @click="searchStatistics">{{$t('search')}}</button>
         </div>
     </div>
-    <div class="row" v-if="statisticsStore.statistics">
-        <StatisticsCharts :statistcs="statisticsStore.statistics"></StatisticsCharts>
+    <div class="row" v-if="statistics?.expensesByCategory">
+        <StatisticsCharts :statistics="statistics"></StatisticsCharts>
     </div>
+    <BackButton></BackButton>
 </div>
 </template>
