@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { WalletStatistics } from '../models/WalletStatistics';
 import Chart, { ChartItem } from 'chart.js/auto';
 import { useI18n } from 'vue-i18n';
 import { watch } from 'vue';
 import autocolors from 'chartjs-plugin-autocolors';
 
 const props = defineProps<{
-    statistics: WalletStatistics
+    incomes: number,
+    expenses: number,
+    expensesByCategory: Map<string,number>
 }>();
 let chart: Chart;
 const i18n = useI18n();
-watch(()=>props.statistics,()=> createChart());
+watch(()=>props.expensesByCategory,()=> createChart());
 setTimeout(()=>createChart(),200);
 function createChart(){
     if(chart != undefined){
@@ -18,7 +19,7 @@ function createChart(){
     }
     chart = new Chart(<ChartItem>document.getElementById("expensesByCategory"),{
         type: 'doughnut',
-        data: statisticsToChartData(props.statistics),
+        data: statisticsToChartData(props.expensesByCategory),
         plugins: [{id:'autocolor',...autocolors}],
         options: {
             plugins: {
@@ -30,13 +31,13 @@ function createChart(){
     });
 }
 
-function statisticsToChartData(statistics: WalletStatistics){
-    let categories = Object.keys(statistics.expensesByCategory ?? {});
+function statisticsToChartData(statistics: Map<string,number>){
+    let categories = Array.from(statistics.keys());
     return {
         labels: categories,
         datasets: [{
             label: i18n.t('value'),
-            data: categories.map(c => statistics.expensesByCategory[<keyof {}>c])
+            data: categories.map(c => statistics.get(c))
         }]
     }
 }
@@ -45,9 +46,9 @@ function statisticsToChartData(statistics: WalletStatistics){
 </script>
 <template>
     <div>
-        <b>{{ $t('totalIncome') }}: {{ statistics.incomes }}</b><br/>
-        <b>{{ $t('totalOutcome') }}: {{ statistics.expenses }}</b><br/>
-        <b>{{ $t('netValue') }}: {{ statistics.incomes+statistics.expenses }}</b><br/>
+        <b>{{ $t('totalIncome') }}: {{ incomes }}</b><br/>
+        <b>{{ $t('totalOutcome') }}: {{ expenses }}</b><br/>
+        <b>{{ $t('netValue') }}: {{ incomes+expenses }}</b><br/>
         <div class="row d-flex align-items-center">
             <div class="col-md-6 col-sm-6">
                 <canvas id="expensesByCategory" ></canvas>
@@ -55,8 +56,8 @@ function statisticsToChartData(statistics: WalletStatistics){
             <div class="col-md-6 col-sm-6 " >
                 Expenses:
                 <ul>
-                    <li v-for="category in Object.keys(statistics.expensesByCategory)">
-                        {{ category }}: {{ statistics.expensesByCategory[<keyof {}>category] }}
+                    <li v-for="category in expensesByCategory.keys()">
+                        {{ category }}: {{ expensesByCategory.get(category) }}
                     </li>
                 </ul>
             </div>
