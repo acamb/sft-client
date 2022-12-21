@@ -99,7 +99,7 @@ function rangePrevisionToDates(range: RangeSelection,month?: number){
         searchPrevision();
     }
     else if(range === RangeSelection.YEAR){
-        previsionStartDate.value = new Date(today.getFullYear(),1,1);
+        previsionStartDate.value = today
         previsionEndDate.value = new Date(today.getFullYear()+1,12,1);
         searchPrevision();
     }
