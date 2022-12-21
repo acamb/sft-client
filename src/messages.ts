@@ -83,6 +83,8 @@ export const messages = {
         month: "Month",
         startDate: 'Start date',
         value: 'Value',
-        estimatedNet: 'Estimated end balance'
+        estimatedNet: 'Estimated end balance',
+        statistics: 'Statistics',
+        previsions: 'Previsions'
     }
 }
