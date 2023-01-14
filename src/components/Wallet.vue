@@ -30,7 +30,7 @@ const wallet = ref(walletStore.wallet(walletId));
                         >
                         <button class="btn btn-outline-danger mb-3" @click="navigate">Add transaction</button>
             </router-link>
-            <router-link
+            <router-link v-if="wallet.walletType === 'FIAT'"
                         :to="{
                             name: 'addScheduledTransaction',
                             params: {walletId: wallet.id}
@@ -40,7 +40,7 @@ const wallet = ref(walletStore.wallet(walletId));
                         >
                         <button class="btn btn-outline-danger mb-3" @click="navigate">Add scheduled transaction</button>
             </router-link>
-            <router-link
+            <router-link v-if="wallet.walletType === 'FIAT'"
                         :to="{
                             name: 'statistics',
                             params: {walletId: wallet.id}
@@ -56,8 +56,8 @@ const wallet = ref(walletStore.wallet(walletId));
         </div>
         
         <div class="row">
-            <WalletScheduledTransactions :wallet="wallet"></WalletScheduledTransactions>
+            <WalletScheduledTransactions :wallet="wallet"  v-if="wallet.walletType === 'FIAT'"></WalletScheduledTransactions>
         </div>
-        <BackButton back="/wallets"/>
+        <BackButton :back="wallet.walletType === 'FIAT' ? '/wallets' : '/cryptowallets' "/>
     </div>
 </template>

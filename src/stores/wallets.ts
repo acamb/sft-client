@@ -16,7 +16,10 @@ export const useWalletsStore = defineStore('wallets',{
     } as WalletsState),
     getters :{
         wallets(state){
-            return state.userWallets?.map(uw => uw.walletDto);
+            return state.userWallets?.map(uw => uw.walletDto).filter(w => w.walletType === 'FIAT');
+        },
+        cryptoWallets(state){
+            return state.userWallets?.map(uw => uw.walletDto).filter(w => w.walletType === 'CRYPTO');
         },
         wallet(state) {
             return (id: number | undefined)=> state.userWallets?.map(uw => uw.walletDto)?.find(w => w!.id === id) as WalletDto;

@@ -30,6 +30,10 @@ function submit(){
         <label class="form-label" label-for="balance">{{$t('balance')}}</label>
         <input type="number" class="form-control" id="balance" v-model="wallet.balance" required/>
     </div>
+    <div class="mb-3">
+      <label class="form-label" label-for="balance">{{$t('walletType')}}</label>
+      <v-select class="form-control" :options="['FIAT','CRYPTO']" v-model="wallet.walletType" label='walletType'/>
+    </div>
     <button class="btn btn-outline-success">{{$t('save')}}</button>
     <BackButton back="/"/>
 </form>

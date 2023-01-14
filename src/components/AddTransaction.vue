@@ -9,6 +9,7 @@ import router from '../router'
 import BackButton from './BackButton.vue';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
+import CryptoTransactionDto from "../models/CryptoTransactionDto";
 
 const route = useRoute();
 const i18n = useI18n();
@@ -20,7 +21,11 @@ const wallet = walletStore.wallet(walletId);
 const categoryStore = useCategoryStore();
 categoryStore.loadCategories(false);
 const {categories} = storeToRefs(categoryStore);
-const transaction = ref(transactionStore.transaction(transactionId,wallet) ?? <TransactionDto>{});
+const _trx = transactionStore.transaction(transactionId,wallet) ?? <TransactionDto>{};
+if(wallet.walletType === 'CRYPTO' && _trx.cryptoTransaction === undefined){
+  _trx.cryptoTransaction = <CryptoTransactionDto>{};
+}
+const transaction = ref(_trx);
 const error = ref('');
 function save(){
     if(transaction.value.categoryDto){
@@ -56,7 +61,7 @@ function canEdit(){
             <label class="form-label" label-for="amount">{{$t('amount')}}</label>
             <input class="form-control" type="number" step="0.01" id="amount" v-model="transaction.amount"  :disabled="!canEdit()"/>
         </div>
-        <div class="mb-3">
+        <div class="mb-3"  v-if="wallet.walletType === 'FIAT'">
             <label class="form-label" label-for="category">{{$t('category')}}</label>
             <v-select class="form-control" :options="categoryStore.categories" v-model="transaction.categoryDto" label='name'/>
         </div>
@@ -64,13 +69,26 @@ function canEdit(){
             <label class="form-label" label-for="note">{{$t('note')}}</label>
             <input class="form-control" id="note" v-model="transaction.note"/>
         </div>
-        <div class="mb-3">
+        <div class="mb-3"  v-if="wallet.walletType === 'FIAT'">
             <label class="form-check-label" label-for="scheduled">{{$t('scheduled')}}</label>
             <input class="form-check-input" id="scheduled" type="checkbox" v-model="transaction.scheduled"/>
         </div>
         <button class="btn btn-outline-success">{{$t('save')}}</button>
-        
+        <template  v-if="wallet.walletType === 'CRYPTO'">
+          <div class="mb-3">
+            <label class="form-label" label-for="baseValue">{{$t('baseValue')}}</label>
+            <input class="form-control" type="number" step="0.01" id="baseValue" v-model="transaction.cryptoTransaction.baseValueUsed"/>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" label-for="fee">{{$t('fee')}}</label>
+            <input class="form-control" type="number" step="0.01" id="fee" v-model="transaction.cryptoTransaction.fee"/>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" label-for="category">{{$t('transactionType')}}</label>
+            <v-select class="form-control" :options="['BUY','SELL','TRANSFER']" v-model="transaction.cryptoTransaction.transactionType" label='name'/>
+          </div>
+        </template>
     </form>
-    <BackButton back="/wallets"/>
+    <BackButton :back="wallet.walletType === 'FIAT' ? '/wallets' : '/cryptowallets' "/>
 </div>
 </template>

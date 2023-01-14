@@ -1,3 +1,7 @@
+import CryptoTransactionDto from "./CryptoTransactionDto";
+import UserDto from "./UserDto";
+import CategoryDto from "./CategoryDto";
+
 export default interface TransactionDto{
   id?: number
 
@@ -16,4 +20,6 @@ export default interface TransactionDto{
   userDto?: UserDto
 
   scheduled?: boolean
+
+  cryptoTransaction?: CryptoTransactionDto
 }

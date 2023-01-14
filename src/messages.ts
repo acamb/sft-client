@@ -1,6 +1,7 @@
 export const messages = {
     en:{
         mywallets: "My Wallets",
+        myCryptoWallets: "My Crypto Wallets",
         addTransaction: "Add transaction",
         addCategory: 'Add category',
         manageCategories: 'Manage categories',
@@ -85,6 +86,8 @@ export const messages = {
         value: 'Value',
         estimatedNet: 'Estimated end balance',
         statistics: 'Statistics',
-        previsions: 'Previsions'
+        previsions: 'Previsions',
+        baseValue: 'Base Value',
+        fee: 'Fee'
     }
 }
