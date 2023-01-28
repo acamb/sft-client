@@ -3,6 +3,7 @@ import UserWalletDto from '../models/UserWalletDto';
 import WalletDto from "../models/WalletDto"
 import axios from '../axios'
 import UserDto from '../models/UserDto';
+import {CryptoWalletInfo, CryptoWalletsInfo} from "../models/CryptoWalletsInfo";
 
 export type WalletsState= {
     userWallets : UserWalletDto[],
@@ -31,6 +32,7 @@ export const useWalletsStore = defineStore('wallets',{
                 try{
                     let response = await axios.get<Array<UserWalletDto>>("api/wallet/")
                     this.userWallets = response?.data ?? [];
+                    //TODO load crypto info
                 }
                 catch(err){
                     throw err;//TODO
@@ -41,6 +43,7 @@ export const useWalletsStore = defineStore('wallets',{
             let response = await axios.get<UserWalletDto>(`api/wallet/${wallet.id}`)
             let idx = this.userWallets.findIndex( uw => uw.walletDto.id === wallet.id);
             this.userWallets[idx] = response.data;
+            //TODO refresh crypto info if necessary
         },
         async save(wallet: WalletDto){
             await axios.post("api/wallet/",wallet);
@@ -90,6 +93,10 @@ export const useWalletsStore = defineStore('wallets',{
                     this.associations.get(userWallet.walletDto)?.push(userWallet);
                 }
             }
+        },
+        async getCryptoValue(ids: string){
+            let response = await axios.get<CryptoWalletsInfo>(`/api/cryptopwallet/info?ids=${ids}`);
+            return response.data.wallets;
         }
     }
 })

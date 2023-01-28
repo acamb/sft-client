@@ -16,4 +16,6 @@ export default interface WalletDto{
   walletType: WalletType
 
   currency: CryptoCurrency
+
+  currentValue?: number
 }
