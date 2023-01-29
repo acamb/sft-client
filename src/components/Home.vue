@@ -35,6 +35,13 @@ const walletStore = useWalletsStore();
     >
         <button class="btn btn-outline-primary home-button d-flex justify-content-between" @click="navigate">{{ $t("manageCategories") }}&nbsp;<i class="bi bi-tag"></i></button>
     </router-link>
+      <router-link
+          to="/currencies"
+          custom
+          v-slot="{ navigate }"
+      >
+        <button class="btn btn-outline-primary home-button d-flex justify-content-between" @click="navigate">{{ $t("manageCurrencies") }}&nbsp;<i class="bi bi-currency-bitcoin"></i></button>
+      </router-link>
     </div>
 </template>
 <style>

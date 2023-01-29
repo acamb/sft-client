@@ -21,5 +21,5 @@ export default interface TransactionDto{
 
   scheduled?: boolean
 
-  cryptoTransaction?: CryptoTransactionDto
+  cryptoTransactionDto?: CryptoTransactionDto
 }

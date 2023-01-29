@@ -10,14 +10,20 @@ import AddWallet from './components/AddWallet.vue'
 import AddCategory from './components/AddCategory.vue'
 import AddScheduledTransaction from './components/AddScheduledTransaction.vue'
 import Statistics from './components/Statistics.vue'
+import CryptoWallets from "./components/CryptoWallets.vue";
+import CryptoCurrencies from "./components/CryptoCurrencies.vue";
+import AddCryptoCurrency from "./components/AddCryptoCurrency.vue";
 
 
 export const routes = [
     { path: '/', component: Home, name: 'Home' },
     { path: '/wallets', component: Wallets },
+    { path: '/cryptowallets', component: CryptoWallets },
     { path: '/categories', component: Categories },
+    { path: '/currencies', component: CryptoCurrencies },
     { path: '/addCategory', component: AddCategory },
-    { path: '/editCategory/:id', component: AddCategory },
+    { path: '/addCurrency', component: AddCryptoCurrency },
+    { path: '/editCurrency/:id', component: AddCryptoCurrency },
     { path: '/addTransaction/:walletId', component: AddTransaction, name: 'addTransaction' },
     { path: '/editTransaction/:walletId/:transactionId', component: AddTransaction, name: 'editTransaction' },
     { path: '/addScheduledTransaction/:walletId', component: AddScheduledTransaction, name: 'addScheduledTransaction' },

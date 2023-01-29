@@ -87,7 +87,8 @@ export const messages = {
         estimatedNet: 'Estimated end balance',
         statistics: 'Statistics',
         previsions: 'Previsions',
-        baseValue: 'Base Value',
-        fee: 'Fee'
+        baseValue: 'Price',
+        fee: 'Fee',
+        currency: 'Currency'
     }
 }
