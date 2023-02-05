@@ -37,16 +37,16 @@ function save(){
             error.value = i18n.t('amountCantBePositive');
             return;
         }
-        if(wallet.walletType === 'CRYPTO'){
-          if(transaction.value.cryptoTransactionDto?.transactionType === 'SELL' && transaction.value.amount! > 0){
-            error.value = i18n.t('amountCantBePositive');
-            return;
-          }
-          if(transaction.value.cryptoTransactionDto?.transactionType === 'BUY' && transaction.value.amount! < 0){
-            error.value = i18n.t('amountCantBeNegative');
-            return;
-          }
-        }
+    }
+    if(wallet.walletType === 'CRYPTO'){
+      if(transaction.value.cryptoTransactionDto?.transactionType === 'SELL' && transaction.value.amount! > 0){
+        error.value = i18n.t('amountCantBePositive');
+        return;
+      }
+      if(transaction.value.cryptoTransactionDto?.transactionType === 'BUY' && transaction.value.amount! < 0){
+        error.value = i18n.t('amountCantBeNegative');
+        return;
+      }
     }
     transactionStore.save(wallet,transaction.value);
   router.push(wallet.walletType === 'FIAT' ? "/wallets" : "/cryptowallets");
@@ -90,7 +90,7 @@ function canEdit(){
           </div>
           <div class="mb-3">
             <label class="form-label" label-for="fee">{{$t('fee')}}</label>
-            <input class="form-control" type="number" step="0.01" id="fee" v-model="transaction.cryptoTransactionDto.fee"/>
+            <input class="form-control" type="number" step="0.000001" id="fee" v-model="transaction.cryptoTransactionDto.fee"/>
           </div>
           <div class="mb-3">
             <label class="form-label" label-for="category">{{$t('transactionType')}}</label>
