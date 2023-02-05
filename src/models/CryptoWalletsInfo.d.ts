@@ -3,6 +3,6 @@ export interface CryptoWalletsInfo{
 }
 
 export interface CryptoWalletInfo{
-    id: number,
-    value: number
+    walletId: number,
+    currentValue: number
 }

@@ -31,8 +31,9 @@ export const useWalletsStore = defineStore('wallets',{
             if(force || this.userWallets.length == 0){
                 try{
                     let response = await axios.get<Array<UserWalletDto>>("api/wallet/")
+                    let cryptoValueResponse = await this.getCryptoValue(response?.data.filter(w => w.walletDto.walletType === "CRYPTO").map(w => w.id).join(","));
+                    cryptoValueResponse?.forEach( w => response.data.find(w2 => w2.id === w.walletId)!.walletDto!.currentValue = w.currentValue)
                     this.userWallets = response?.data ?? [];
-                    //TODO load crypto info
                 }
                 catch(err){
                     throw err;//TODO
@@ -43,7 +44,10 @@ export const useWalletsStore = defineStore('wallets',{
             let response = await axios.get<UserWalletDto>(`api/wallet/${wallet.id}`)
             let idx = this.userWallets.findIndex( uw => uw.walletDto.id === wallet.id);
             this.userWallets[idx] = response.data;
-            //TODO refresh crypto info if necessary
+            if(wallet.walletType === "CRYPTO") {
+                let cryptoValueResponse = await this.getCryptoValue("" + wallet.id);
+                cryptoValueResponse?.forEach(w => this.userWallets.find(w2 => w2.id == w.walletId)!.walletDto!.currentValue = w.currentValue)
+            }
         },
         async save(wallet: WalletDto){
             await axios.post("api/wallet/",wallet);
@@ -95,7 +99,10 @@ export const useWalletsStore = defineStore('wallets',{
             }
         },
         async getCryptoValue(ids: string){
-            let response = await axios.get<CryptoWalletsInfo>(`/api/cryptopwallet/info?ids=${ids}`);
+            if(!ids){
+                return undefined;
+            }
+            let response = await axios.get<CryptoWalletsInfo>(`/api/cryptowallet/info?ids=${ids}`);
             return response.data.wallets;
         }
     }

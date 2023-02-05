@@ -15,7 +15,9 @@ const currencyStore = useCryptoCurrencyStore();
 const wallet = ref(walletStore.wallet(Number.parseInt(<string>route.params.id)) ?? <WalletDto>{});
 const {currencies} = storeToRefs(currencyStore);
 function submit(){
-    console.log(`name: ${wallet.value.name}`)
+    if(wallet.value.walletType === "CRYPTO" && wallet.value.currency?.id === undefined){
+      return;
+    }
     walletStore.save({...wallet.value});
     router.push(wallet.value.walletType === 'FIAT' ? "/wallets" : "/cryptowallets");
 }
@@ -36,7 +38,7 @@ function submit(){
     </div>
     <div class="mb-3">
       <label class="form-label" label-for="balance">{{$t('walletType')}}</label>
-      <v-select class="form-control" :options="['FIAT','CRYPTO']" v-model="wallet.walletType" label='walletType'/>
+      <v-select class="form-control" :options="['FIAT','CRYPTO']" v-model="wallet.walletType" label='walletType' required/>
     </div>
     <div class="mb-3" v-if="wallet.walletType === 'CRYPTO'">
       <label class="form-label" label-for="currency">{{$t('currency')}}</label>

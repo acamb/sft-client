@@ -14,7 +14,7 @@ const {cryptoWallets} = storeToRefs(walletStore)
             {{ wallet!.name }}
         </div>
         <div class="card-body wallet-body">
-            <div>Balance: {{ wallet!.balance }}</div>
+            <div>Balance: {{ wallet!.balance }} / {{wallet.currentValue}} Eur</div>
             <div>Description: {{wallet!.description}}</div>
             <div class="d-flex justify-content-between">
                 <router-link

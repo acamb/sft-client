@@ -7,14 +7,14 @@ const walletStore = useWalletsStore();
 </script>
 <template>
     <div class="button-container">
-        <router-link v-if="walletStore.wallets"
+        <router-link v-if="walletStore.wallets.length > 0"
       to="/wallets"
       custom
       v-slot="{ navigate }"
     >
         <button class="btn btn-outline-primary home-button d-flex justify-content-between" @click="navigate">{{ $t("mywallets") }}&nbsp;<i class="bi bi-wallet2"></i></button>
     </router-link>
-      <router-link v-if="walletStore.cryptoWallets"
+      <router-link v-if="walletStore.cryptoWallets.length > 0"
                    to="/cryptowallets"
                    custom
                    v-slot="{ navigate }"
