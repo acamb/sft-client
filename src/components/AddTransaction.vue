@@ -69,7 +69,7 @@ function canEdit(){
         </div>
         <div class="mb-3">
             <label class="form-label" label-for="amount">{{$t('amount')}}</label>
-            <input class="form-control" type="number" step="0.01" id="amount" v-model="transaction.amount"  :disabled="!canEdit()"/>
+            <input class="form-control" type="number" step="0.0000000001" id="amount" v-model="transaction.amount"  :disabled="!canEdit()"/>
         </div>
         <div class="mb-3"  v-if="wallet.walletType === 'FIAT'">
             <label class="form-label" label-for="category">{{$t('category')}}</label>

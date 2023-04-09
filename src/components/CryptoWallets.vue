@@ -8,13 +8,14 @@ const walletStore = useWalletsStore();
 walletStore.loadUserWallet(false);
 const {cryptoWallets} = storeToRefs(walletStore)
 </script>
+//TODO: avoid exponential notation on balance
 <template>
     <div class="card" v-for="wallet in cryptoWallets">
         <div class="card-header">
             {{ wallet!.name }}
         </div>
         <div class="card-body wallet-body">
-            <div>Balance: {{ wallet!.balance }} / {{wallet.currentValue}} Eur</div>
+            <div>Balance: {{ wallet!.balance  }} / {{wallet.currentValue.toFixed(2)}} Eur</div>
             <div>Description: {{wallet!.description}}</div>
             <div class="d-flex justify-content-between">
                 <router-link

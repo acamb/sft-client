@@ -34,7 +34,7 @@ function submit(){
     </div>
     <div class="mb-3">
         <label class="form-label" label-for="balance">{{$t('balance')}}</label>
-        <input type="number" class="form-control" id="balance" v-model="wallet.balance" required/>
+        <input type="number" class="form-control" step="0.0000000001" id="balance" v-model="wallet.balance" required/>
     </div>
     <div class="mb-3">
       <label class="form-label" label-for="balance">{{$t('walletType')}}</label>

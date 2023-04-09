@@ -89,6 +89,8 @@ export const messages = {
         previsions: 'Previsions',
         baseValue: 'Price',
         fee: 'Fee',
-        currency: 'Currency'
+        currency: 'Currency',
+        manageCurrencies: 'Manage Currencies',
+        addCurrency: 'Add'
     }
 }
