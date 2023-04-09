@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { stringifyExpression } from '@vue/compiler-core';
-import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { loadRouteLocation, useRoute } from 'vue-router';
+import {storeToRefs} from 'pinia';
+import {ref} from 'vue';
+import {useI18n} from 'vue-i18n';
+import {useRoute} from 'vue-router';
 import WalletDto from '../models/WalletDto';
 import {useStatisticsStore} from "../stores/statistics";
 import {usePrevisionStore} from "../stores/prevision";
-import { useWalletsStore } from '../stores/wallets';
+import {useWalletsStore} from '../stores/wallets';
 import BackButton from './BackButton.vue';
 import PrevisionChart from './PrevisionChart.vue';
 import StatisticsCharts from './StatisticsCharts.vue';
@@ -83,7 +82,7 @@ function rangeSelectionToDates(range: RangeSelection,month?: number){
         endDate.value.setDate(today.getDate()+1);
         searchStatistics();
     }
-    else if(range === RangeSelection.MONTH && month){
+    else if(range === RangeSelection.MONTH && month != undefined){
         startDate.value = new Date(today.getFullYear(),month,1);
         endDate.value = new Date(today.getFullYear(),month+1,0);
         searchStatistics();

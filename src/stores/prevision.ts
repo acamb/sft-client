@@ -23,6 +23,8 @@ export const usePrevisionStore = defineStore('prevision',{
     }) as PrevisionState,
     actions: {
         async loadStatistics(wallet: WalletDto,search: Search){
+            search.startDate = new Date(Date.UTC(search.startDate.getFullYear(),search.startDate.getMonth(),search.startDate.getDate(),0,0,0));
+            search.endDate = new Date(Date.UTC(search.endDate.getFullYear(),search.endDate.getMonth(),search.endDate.getDate(),0,0,0));
             let response = await axios.get<WalletPrevision>(`api/statistics/prevision/${wallet.id}?startDate=${search.startDate.toISOString()}&endDate=${search.endDate.toISOString()}`);
             this.prevision = new Map(Object.entries(response.data.prevision)) || new Map();
             this.estimated = new Map(Object.entries(response.data.estimated)) || new Map();
