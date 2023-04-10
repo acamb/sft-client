@@ -7,7 +7,7 @@ export default interface WalletDto{
 
   version?: number
 
-  balance?: number
+  balance?: string
 
   name?: string
 

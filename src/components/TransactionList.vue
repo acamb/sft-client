@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import TransactionDto from '../models/TransactionDto';
-import WalletDto from '../models/WalletDto';
 import {formatDate} from '../DateUtils'
 import Paginator from './Paginator.vue';
-import { number } from '@intlify/core-base';
-import { ref } from 'vue';
+
 const props = defineProps({
     transactions: {type: Array<TransactionDto>,required: true},
         walletId: {type: Number, required: true},
@@ -30,7 +28,7 @@ const emit = defineEmits<{
             <tr v-for="transaction in props.transactions">
                 <td>{{formatDate(transaction.date)}}</td>
                 <td>{{transaction.name}}</td>
-                <td>{{transaction.amount}}</td>
+                <td>{{transaction?.amount < 1 ? transaction.amount?.toFixed(10) : transaction.amount}}</td>
                 <td>
                      <router-link
                     :to="{
